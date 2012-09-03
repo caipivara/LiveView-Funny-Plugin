@@ -1,0 +1,15 @@
+<sounds>
+
+    <sound
+        name="Aaaaaa"
+        file="aaa.mp3" />
+
+    <sound
+        name="Quick Fart"
+        file="Quick Fart.mp3" />
+
+    <sound
+        name="Big Fart"
+        file="Big Fart.mp3" />
+
+</sounds>
