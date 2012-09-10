@@ -3,41 +3,40 @@ package model;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.experience.nielda.music.SoundPlayer;
 
-public class SoundManager implements Runnable {
+public class SoundManager {
 	// ****************************************************************
 	// Attributes
 	// ****************************************************************
 
-	// Our handler.
-	private Handler mHandler = null;
-
 	private final static String SOUNDS_FILE = "sounds.xml";
-	private ArrayList<Sound> sounds;
+	private HashMap<String, ArrayList<Sound>> sounds;
+	private final Context context;
 	private int actualSound;
-	private Context context;
+	private String actualCategory;
 
 	// ****************************************************************
 	// Constructor
 	// ****************************************************************
 
-	public SoundManager(Context context) {
+	public SoundManager(final Context context) {
 
 		this.context = context;
-		this.mHandler = new Handler();
 		actualSound = 0;
 		loadSounds();
+		actualCategory = sounds.keySet().iterator().next();
 	}
 
 	// ****************************************************************
@@ -45,27 +44,101 @@ public class SoundManager implements Runnable {
 	// ****************************************************************
 
 	public String getActualSound() {
-		return sounds.get(actualSound).getName();
+		return sounds.get(actualCategory).get(actualSound).getName();
 	}
 
-	public String getNextSound() {
+	// ****************************************************************
+	// Jump Methods
+	// ****************************************************************
+
+	public String jumpNextSound() {
 
 		if (++actualSound >= sounds.size()) {
 			actualSound = 0;
 		}
 
-		return sounds.get(actualSound).getName();
+		return sounds.get(actualCategory).get(actualSound).getName();
 
 	}
 
-	public String getPastSound() {
+	public String jumpPastSound() {
 
 		if (--actualSound < 0) {
 			actualSound = sounds.size() - 1;
 		}
 
-		return sounds.get(actualSound).getName();
+		return sounds.get(actualCategory).get(actualSound).getName();
 
+	}
+
+	public String jumpNextCategory() {
+
+		String nextCategory = "";
+		Iterator<String> iterator = sounds.keySet().iterator();
+
+		while (iterator.hasNext()) {
+
+			nextCategory = iterator.next();
+
+			if (nextCategory.equals(actualCategory) && iterator.hasNext()) {
+				nextCategory = iterator.next();
+			}
+
+		}
+
+		return nextCategory;
+
+	}
+
+	public String jumpPastCategory() {
+
+		String nextCategory = "";
+		String pastCategory = "";
+		Iterator<String> iterator = sounds.keySet().iterator();
+
+		while (iterator.hasNext()) {
+
+			nextCategory = iterator.next();
+
+			if (nextCategory.equals(actualCategory)) {
+				break;
+			}
+
+			pastCategory = nextCategory;
+		}
+
+		if (pastCategory.equals("")) {
+			return nextCategory;
+		} else {
+			return pastCategory;
+		}
+
+	}
+
+	// ****************************************************************
+	// Action Methods
+	// ****************************************************************
+
+	public void playSound() {
+		// Play the sound
+		// final Message msg = Message.obtain(mHandler, this);
+		// mHandler.sendMessage(msg);
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+
+					final Sound sound = sounds.get(actualCategory).get(
+							actualSound);
+					SoundPlayer.getInstance(context).play(sound.getPath());
+
+				} catch (final IOException e) {
+					e.printStackTrace();
+				} catch (final InterruptedException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
 	}
 
 	// ****************************************************************
@@ -75,15 +148,15 @@ public class SoundManager implements Runnable {
 	public void loadSounds() {
 		try {
 
-			boolean done = false;
+			final boolean done = false;
 
 			final XmlPullParserFactory factory = XmlPullParserFactory
 					.newInstance();
 			factory.setNamespaceAware(true);
 			final XmlPullParser parser = factory.newPullParser();
 
-			InputSource source = new InputSource(context.getAssets().open(
-					SOUNDS_FILE));
+			final InputSource source = new InputSource(context.getAssets()
+					.open(SOUNDS_FILE));
 			parser.setInput(source.getByteStream(), source.getEncoding());
 
 			int eventType = parser.getEventType();
@@ -98,10 +171,18 @@ public class SoundManager implements Runnable {
 					name = parser.getName();
 
 					if (name.equals("sounds")) {
-						sounds = new ArrayList<Sound>();
+						sounds = new HashMap<String, ArrayList<Sound>>();
 					} else if (name.equals("sound")) {
-						sounds.add(new Sound(parser.getAttributeValue(0),
-								parser.getAttributeValue(1)));
+						actualCategory = parser.getAttributeValue(1);
+						ArrayList<Sound> soundsTemp = sounds
+								.get(actualCategory);
+						if (soundsTemp == null) {
+							soundsTemp = new ArrayList<Sound>();
+						}
+						soundsTemp.add(new Sound(parser.getAttributeValue(0),
+								parser.getAttributeValue(2)));
+
+						sounds.put(actualCategory, soundsTemp);
 					}
 
 					break;
@@ -115,30 +196,5 @@ public class SoundManager implements Runnable {
 		} catch (final Exception e) {
 			Log.e("Exception en Favorito", e.getMessage());
 		}
-	}
-
-	// ****************************************************************
-	// Runnable Overrides
-	// ****************************************************************
-
-	public void playSound() {
-		// Play the sound
-		final Message msg = Message.obtain(mHandler, this);
-		mHandler.sendMessage(msg);
-	}
-
-	public void run() {
-
-		try {
-
-			Sound sound = sounds.get(actualSound);
-			SoundPlayer.getInstance(context).play(sound.getPath());
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 	}
 }

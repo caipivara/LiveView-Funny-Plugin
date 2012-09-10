@@ -146,6 +146,45 @@ public final class PluginUtils {
     }
     
     /**
+     * Stores text to an image on file.
+     * 
+     * @param liveView Reference to LiveView connection
+     * @param pluginId Id of the plugin
+     * @param text The text string
+     * @param bitmapSizeX Bitmap size X
+     * @param fontSize Font size
+     * @return Absolute path to file
+     */
+    public static void sendTextBitmap(LiveViewAdapter liveView, int pluginId, String text, int bitmapSizeX, int fontSize, Layout.Alignment aligment) {
+        // Empty bitmap and link the canvas to it
+        Bitmap bitmap = null;
+        try {
+            bitmap = Bitmap.createBitmap(bitmapSizeX, fontSize, Bitmap.Config.RGB_565);
+        }
+        catch(IllegalArgumentException  e) {
+            return;
+        }
+        
+        Canvas canvas = new Canvas(bitmap);
+
+        // Set the text properties in the canvas
+        TextPaint textPaint = new TextPaint();
+        textPaint.setTextSize(fontSize);
+        textPaint.setColor(Color.WHITE);
+
+        // Create the text layout and draw it to the canvas
+        Layout textLayout = new StaticLayout(text, textPaint, bitmapSizeX, aligment, 1, 1, false);
+        textLayout.draw(canvas);
+        
+        try
+        { 
+            liveView.sendImageAsBitmap(pluginId, centerX(bitmap), centerY(bitmap), bitmap);
+        } catch(Exception e) {
+            Log.d(PluginConstants.LOG_TAG, "Failed to send bitmap", e);
+        }
+    }
+    
+    /**
      * Gets resource id dynamically
      * 
      * @param context

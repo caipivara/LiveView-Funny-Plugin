@@ -1,15 +1,28 @@
 <sounds>
 
     <sound
-        name="Aaaaaa"
-        file="aaa.mp3" />
+        name="Aaa Alto"
+        category="Aaa"
+        file="Aaa_alto.mp3" />
+
+    <sound
+        name="Aaa Medio"
+        category="Aaa"
+        file="Aaa_medio.mp3" />
+
+    <sound
+        name="Aaa Grave"
+        category="Aaa"
+        file="Aaa_grave.mp3" />
 
     <sound
         name="Quick Fart"
+        category="Fart"
         file="Quick Fart.mp3" />
 
     <sound
         name="Big Fart"
+        category="Fart"
         file="Big Fart.mp3" />
 
 </sounds>

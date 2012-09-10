@@ -36,7 +36,7 @@ import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
 
-public class SandboxPluginService extends AbstractPluginService {
+public class SoundPluginService extends AbstractPluginService {
 
 	// ****************************************************************
 	// Attributes
@@ -66,6 +66,7 @@ public class SandboxPluginService extends AbstractPluginService {
 
 	public void onCreate() {
 		super.onCreate();
+
 	}
 
 	public void onDestroy() {
@@ -85,7 +86,11 @@ public class SandboxPluginService extends AbstractPluginService {
 	 * Must be implemented. Starts plugin work, if any.
 	 */
 	protected void startWork() {
-		showTextDelayed(soundManager.getActualSound(), 128, 30);
+		if (mSharedPreferences.getBoolean(
+				PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
+
+			showTextDelayed(soundManager.getActualSound(), 128, 30);
+		}
 	}
 
 	/**
@@ -199,9 +204,13 @@ public class SandboxPluginService extends AbstractPluginService {
 		// + ", doublepress " + doublepress + ", longpress " + longpress);
 
 		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
-			showText(soundManager.getNextSound(), 128, 30);
+			showText(soundManager.jumpPastCategory(), 220, 65);
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-			showText(soundManager.getPastSound(), 128, 30);
+			showText(soundManager.jumpNextCategory(), 80, 15);
+		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
+			showText(soundManager.jumpPastSound(), 80, 15);
+		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
+			showText(soundManager.jumpNextSound(), 80, 15);
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
 
 			// Play the sound
