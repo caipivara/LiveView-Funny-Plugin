@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
@@ -74,7 +73,7 @@ public class SoundManager {
 	public String jumpNextCategory() {
 
 		String nextCategory = "";
-		Iterator<String> iterator = sounds.keySet().iterator();
+		final Iterator<String> iterator = sounds.keySet().iterator();
 
 		while (iterator.hasNext()) {
 
@@ -86,6 +85,8 @@ public class SoundManager {
 
 		}
 
+		actualCategory = nextCategory;
+
 		return nextCategory;
 
 	}
@@ -94,7 +95,7 @@ public class SoundManager {
 
 		String nextCategory = "";
 		String pastCategory = "";
-		Iterator<String> iterator = sounds.keySet().iterator();
+		final Iterator<String> iterator = sounds.keySet().iterator();
 
 		while (iterator.hasNext()) {
 
@@ -108,10 +109,12 @@ public class SoundManager {
 		}
 
 		if (pastCategory.equals("")) {
-			return nextCategory;
+			actualCategory = nextCategory;
 		} else {
-			return pastCategory;
+			actualCategory = pastCategory;
 		}
+
+		return actualCategory;
 
 	}
 
@@ -181,6 +184,10 @@ public class SoundManager {
 						}
 						soundsTemp.add(new Sound(parser.getAttributeValue(0),
 								parser.getAttributeValue(2)));
+
+						// Log.d("DDD", String.format("%s %s",
+						// parser.getAttributeValue(0),
+						// parser.getAttributeValue(1)));
 
 						sounds.put(actualCategory, soundsTemp);
 					}
