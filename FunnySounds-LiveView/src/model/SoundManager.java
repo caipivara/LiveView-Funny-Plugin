@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
@@ -14,7 +13,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.content.Context;
 import android.util.Log;
 
-import com.experience.nielda.music.SoundPlayer;
+import com.expergine.nielda.music.SoundPlayer;
 
 public class SoundManager {
 	// ****************************************************************
