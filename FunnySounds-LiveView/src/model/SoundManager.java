@@ -19,105 +19,122 @@ public class SoundManager {
 	// ****************************************************************
 	// Attributes
 	// ****************************************************************
-
+	
 	private final static String SOUNDS_FILE = "sounds.xml";
 	private HashMap<String, ArrayList<Sound>> sounds;
 	private final Context context;
 	private int actualSound;
 	private String actualCategory;
-
+	
 	// ****************************************************************
 	// Constructor
 	// ****************************************************************
-
+	
 	public SoundManager(final Context context) {
-
+		
 		this.context = context;
-		actualSound = 0;
+		
 		loadSounds();
+		
+		actualSound = 0;
 		actualCategory = sounds.keySet().iterator().next();
 	}
-
+	
 	// ****************************************************************
 	// Accessor Methods
 	// ****************************************************************
-
+	
 	public String getActualSound() {
 		return sounds.get(actualCategory).get(actualSound).getName();
 	}
-
+	
+	public String getActualCategory() {
+		return actualCategory;
+	}
+	
 	// ****************************************************************
 	// Jump Methods
 	// ****************************************************************
-
+	
 	public String jumpNextSound() {
-
-		if (++actualSound >= sounds.size()) {
+		
+		if (++actualSound >= sounds.get(actualCategory).size()) {
 			actualSound = 0;
 		}
-
+		
 		return sounds.get(actualCategory).get(actualSound).getName();
-
 	}
-
+	
 	public String jumpPastSound() {
-
+		
 		if (--actualSound < 0) {
-			actualSound = sounds.size() - 1;
+			actualSound = sounds.get(actualCategory).size() - 1;
 		}
-
+		
 		return sounds.get(actualCategory).get(actualSound).getName();
-
+		
 	}
-
+	
 	public String jumpNextCategory() {
-
+		
 		String nextCategory = "";
 		Iterator<String> iterator = sounds.keySet().iterator();
-
+		
+		Log.d("eee actual", actualCategory);
 		while (iterator.hasNext()) {
-
+			
 			nextCategory = iterator.next();
-
-			if (nextCategory.equals(actualCategory) && iterator.hasNext()) {
-				nextCategory = iterator.next();
+			Log.d("eee next", nextCategory);
+			if (nextCategory.equals(actualCategory)) {
+				if (iterator.hasNext()) {
+					nextCategory = iterator.next();
+				} else {
+					nextCategory = actualCategory;
+				}
+				break;
 			}
-
+			
 		}
-
-		return nextCategory;
-
+		
+		actualSound = 0;
+		actualCategory = nextCategory;
+		
+		return actualCategory;
+		
 	}
-
+	
 	public String jumpPastCategory() {
-
+		
 		String nextCategory = "";
 		String pastCategory = "";
 		Iterator<String> iterator = sounds.keySet().iterator();
-
+		
 		while (iterator.hasNext()) {
-
+			
 			nextCategory = iterator.next();
-
+			
 			if (nextCategory.equals(actualCategory)) {
 				break;
 			}
-
+			
 			pastCategory = nextCategory;
 		}
-
+		
 		if (pastCategory.equals("")) {
-			return nextCategory;
+			actualCategory = nextCategory;
 		} else {
-			return pastCategory;
+			actualCategory = pastCategory;
 		}
-
+		
+		actualSound = 0;
+		return actualCategory;
+		
 	}
-
+	
 	// ****************************************************************
 	// Action Methods
 	// ****************************************************************
-
+	
 	public void playSound() {
 		// Play the sound
 		// final Message msg = Message.obtain(mHandler, this);
@@ -125,66 +142,65 @@ public class SoundManager {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
-
-					final Sound sound = sounds.get(actualCategory).get(
-							actualSound);
+					
+					final Sound sound = sounds.get(actualCategory).get(actualSound);
 					SoundPlayer.getInstance(context).play(sound.getPath());
-
+					
 				} catch (final IOException e) {
 					e.printStackTrace();
 				} catch (final InterruptedException e) {
 					e.printStackTrace();
 				}
-
+				
 			}
 		}).start();
 	}
-
+	
 	// ****************************************************************
 	// XML Setup load
 	// ****************************************************************
-
+	
 	public void loadSounds() {
 		try {
-
+			
 			final boolean done = false;
-
-			final XmlPullParserFactory factory = XmlPullParserFactory
-					.newInstance();
+			
+			final XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 			factory.setNamespaceAware(true);
 			final XmlPullParser parser = factory.newPullParser();
-
-			final InputSource source = new InputSource(context.getAssets()
-					.open(SOUNDS_FILE));
+			
+			final InputSource source = new InputSource(context.getAssets().open(SOUNDS_FILE));
 			parser.setInput(source.getByteStream(), source.getEncoding());
-
+			
 			int eventType = parser.getEventType();
 			String name = "";
-
+			
 			while (eventType != XmlPullParser.END_DOCUMENT && !done) {
-
+				
 				switch (eventType) {
-
-				case XmlPullParser.START_TAG:
-
-					name = parser.getName();
-
-					if (name.equals("sounds")) {
-						sounds = new HashMap<String, ArrayList<Sound>>();
-					} else if (name.equals("sound")) {
-						actualCategory = parser.getAttributeValue(1);
-						ArrayList<Sound> soundsTemp = sounds
-								.get(actualCategory);
-						if (soundsTemp == null) {
-							soundsTemp = new ArrayList<Sound>();
+				
+					case XmlPullParser.START_TAG:
+						
+						name = parser.getName();
+						
+						if (name.equals("sounds")) {
+							sounds = new HashMap<String, ArrayList<Sound>>();
+							
+						} else if (name.equals("category")) {
+							actualCategory = parser.getAttributeValue(0);
+						} else if (name.equals("sound")) {
+							
+							ArrayList<Sound> soundsTemp = sounds.get(actualCategory);
+							if (soundsTemp == null) {
+								soundsTemp = new ArrayList<Sound>();
+							}
+							soundsTemp.add(new Sound(parser.getAttributeValue(0), parser
+							        .getAttributeValue(1)));
+							
+							sounds.put(actualCategory, soundsTemp);
 						}
-						soundsTemp.add(new Sound(parser.getAttributeValue(0),
-								parser.getAttributeValue(2)));
-
-						sounds.put(actualCategory, soundsTemp);
-					}
-
-					break;
+						
+						break;
 				}
 				eventType = parser.next();
 			}

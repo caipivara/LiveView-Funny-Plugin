@@ -1,28 +1,93 @@
 <sounds>
 
-    <sound
-        name="Aaa Alto"
-        category="Aaa"
-        file="Aaa_alto.mp3" />
+    <category name="Aaa" >
 
-    <sound
-        name="Aaa Medio"
-        category="Aaa"
-        file="Aaa_medio.mp3" />
+        <sound
+            name="long"
+            file="aaa long.mp3" />
 
-    <sound
-        name="Aaa Grave"
-        category="Aaa"
-        file="Aaa_grave.mp3" />
+        <sound
+            name="short"
+            file="aaa short.mp3" />
 
-    <sound
-        name="Quick Fart"
-        category="Fart"
-        file="Quick Fart.mp3" />
+        <sound
+            name="aaa"
+            file="aaa.mp3" />
+    </category>
 
-    <sound
-        name="Big Fart"
-        category="Fart"
-        file="Big Fart.mp3" />
+    <category name="Vehicles" >
+
+        <sound
+            name="Ambulance"
+            file="ambulance.mp3" />
+
+        <sound
+            name="Helicopter"
+            file="helicopter.mp3" />
+
+        <sound
+            name="Police"
+            file="police.mp3" />
+    </category>
+
+    <category name="Rain" >
+
+        <sound
+            name="Long"
+            file="rain long.mp3" />
+
+        <sound
+            name="Big"
+            file="rain big.mp3" />
+    </category>
+
+    <category name="Voices" >
+
+        <sound
+            name="ooo"
+            file="ooo.mp3" />
+
+        <sound
+            name="ouch!"
+            file="ouch!.mp3" />
+
+        <sound
+            name="uuu"
+            file="uuu.mp3" />
+
+        <sound
+            name="Moan"
+            file="woman moan.mp3" />
+
+        <sound
+            name="Shut up!"
+            file="shut up.mp3" />
+
+        <sound
+            name="Scream"
+            file="scream.mp3" />
+
+        <sound
+            name="wawawa"
+            file="wawawa.mp3" />
+    </category>
+
+    <category name="Moments" >
+
+        <sound
+            name="suspence"
+            file="uuu.mp3" />
+    </category>
+
+    <category name="Fart" >
+
+        <sound
+            name="Quickie"
+            file="fart quick.mp3" />
+
+        <sound
+            name="Bum!"
+            file="fart big.mp3" />
+    </category>
 
 </sounds>

@@ -37,68 +37,67 @@ import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
 
 public class SoundPluginService extends AbstractPluginService {
-
+	
 	// ****************************************************************
 	// Attributes
 	// ****************************************************************
-
+	
 	// Used to update the LiveView screen
 	private Handler handler;
-
+	
 	// Workers
 	private SoundManager soundManager = null;
-
+	
 	// ****************************************************************
 	// Service Overrides
 	// ****************************************************************
-
+	
 	public void onStart(final Intent intent, final int startId) {
 		super.onStart(intent, startId);
-
+		
 		if (soundManager == null) {
 			soundManager = new SoundManager(this);
 		}
-
+		
 		if (handler == null) {
 			handler = new Handler();
 		}
 	}
-
+	
 	public void onCreate() {
 		super.onCreate();
-
+		
 	}
-
+	
 	public void onDestroy() {
 		super.onDestroy();
-
+		
 		stopWork();
 	}
-
+	
 	/**
 	 * Plugin is sandbox.
 	 */
 	protected boolean isSandboxPlugin() {
 		return true;
 	}
-
+	
 	/**
 	 * Must be implemented. Starts plugin work, if any.
 	 */
 	protected void startWork() {
-		if (mSharedPreferences.getBoolean(
-				PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
-
-			showTextDelayed(soundManager.getActualSound(), 128, 30);
-		}
+		
+		showTextDelayed(
+		        String.format("%s - %s", soundManager.getActualCategory(),
+		                soundManager.getActualSound()), 100, 10);
 	}
-
+	
 	/**
 	 * Must be implemented. Stops plugin work, if any.
 	 */
 	protected void stopWork() {
 	}
-
+	
 	/**
 	 * Must be implemented.
 	 * 
@@ -108,11 +107,10 @@ public class SoundPluginService extends AbstractPluginService {
 	 * If needed, do additional actions here, e.g. starting any worker that is
 	 * needed.
 	 */
-	protected void onServiceConnectedExtended(final ComponentName className,
-			final IBinder service) {
-
+	protected void onServiceConnectedExtended(final ComponentName className, final IBinder service) {
+		
 	}
-
+	
 	/**
 	 * Must be implemented.
 	 * 
@@ -122,9 +120,9 @@ public class SoundPluginService extends AbstractPluginService {
 	 * Do any additional actions here.
 	 */
 	protected void onServiceDisconnectedExtended(final ComponentName className) {
-
+		
 	}
-
+	
 	/**
 	 * Must be implemented.
 	 * 
@@ -132,121 +130,123 @@ public class SoundPluginService extends AbstractPluginService {
 	 * 
 	 * The shared preferences has been changed. Take actions needed.
 	 */
-	protected void onSharedPreferenceChangedExtended(
-			final SharedPreferences prefs, final String key) {
-
+	protected void onSharedPreferenceChangedExtended(final SharedPreferences prefs, final String key) {
+		
 	}
-
+	
 	protected void startPlugin() {
 		// Log.d(PluginConstants.LOG_TAG, "startPlugin");
 		startWork();
 	}
-
+	
 	protected void stopPlugin() {
 		// Log.d(PluginConstants.LOG_TAG, "stopPlugin");
 		stopWork();
 	}
-
+	
 	// ****************************************************************
 	// GUI Changes
 	// ****************************************************************
-
-	private void showTextDelayed(final String text, final int bitmapSizeX,
-			final int fontSize) {
+	
+	private void showTextDelayed(final String text, final int bitmapSizeX, final int fontSize) {
 		handler.postDelayed(new Runnable() {
-
+			
 			public void run() {
 				// First message to LiveView
 				try {
-
+					
 					mLiveViewAdapter.clearDisplay(mPluginId);
 				} catch (final Exception e) {
 					Log.e(PluginConstants.LOG_TAG, "Failed to clear display.");
 				}
-
-				PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text,
-						bitmapSizeX, fontSize);
-
+				
+				PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
+				
 			}
 		}, 1000);
-
+		
 	}
-
-	private void showText(final String text, final int bitmapSizeX,
-			final int fontSize) {
-
+	
+	private void showText(final String text, final int bitmapSizeX, final int fontSize) {
+		
 		handler.post(new Runnable() {
-
+			
 			public void run() {
 				// First message to LiveView
 				try {
-
+					
 					mLiveViewAdapter.clearDisplay(mPluginId);
 				} catch (final Exception e) {
 					Log.e(PluginConstants.LOG_TAG, "Failed to clear display.");
 				}
-
-				PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text,
-						bitmapSizeX, fontSize);
-
+				
+				PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
+				
 			}
 		});
-
+		
 	}
-
+	
 	// ****************************************************************
 	// Events
 	// ****************************************************************
-
-	protected void button(final String buttonType, final boolean doublepress,
-			final boolean longpress) {
+	
+	protected void button(final String buttonType, final boolean doublepress, final boolean longpress) {
 		// Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType
 		// + ", doublepress " + doublepress + ", longpress " + longpress);
-
+		
 		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
-			showText(soundManager.jumpPastCategory(), 220, 65);
+			//showText(soundManager.jumpPastCategory(), 220, 65);
+			showText(
+			        String.format("%s - %s", soundManager.jumpPastCategory(),
+			                soundManager.getActualSound()), 100, 10);
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-			showText(soundManager.jumpNextCategory(), 80, 15);
+			showText(
+			        String.format("%s - %s", soundManager.jumpNextCategory(),
+			                soundManager.getActualSound()), 100, 10);
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
-			showText(soundManager.jumpPastSound(), 80, 15);
+			showText(
+			        String.format("%s - %s", soundManager.getActualCategory(),
+			                soundManager.jumpPastSound()), 100, 10);
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
-			showText(soundManager.jumpNextSound(), 80, 15);
+			showText(
+			        String.format("%s - %s", soundManager.getActualCategory(),
+			                soundManager.jumpNextSound()), 100, 10);
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
-
+			
 			// Play the sound
 			soundManager.playSound();
-
+			
 		}
 	}
-
-	protected void displayCaps(final int displayWidthPx,
-			final int displayHeigthPx) {
+	
+	protected void displayCaps(final int displayWidthPx, final int displayHeigthPx) {
 		// Log.d(PluginConstants.LOG_TAG, "displayCaps - width " +
 		// displayWidthPx+ ", height " + displayHeigthPx);
 	}
-
+	
 	protected void onUnregistered() throws RemoteException {
 		// Log.d(PluginConstants.LOG_TAG, "onUnregistered");
 		stopWork();
 	}
-
+	
 	protected void openInPhone(final String openInPhoneAction) {
 		// Log.d(PluginConstants.LOG_TAG, "openInPhone: " + openInPhoneAction);
 	}
-
+	
 	protected void screenMode(final int mode) {
 		// Log.d(PluginConstants.LOG_TAG, "screenMode: screen is now " + ((mode
 		// == 0) ? "OFF" : "ON"));
-
+		
 		if (mode == PluginConstants.LIVE_SCREEN_MODE_ON) {
 			startUpdates();
 		}
 	}
-
+	
 	private void startUpdates() {
-
+		
 		// Play the sound
 		soundManager.playSound();
 	}
-
+	
 }

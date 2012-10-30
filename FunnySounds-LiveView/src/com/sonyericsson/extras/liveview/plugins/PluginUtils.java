@@ -145,6 +145,7 @@ public final class PluginUtils {
         }
     }
     
+  
     /**
      * Stores text to an image on file.
      * 
