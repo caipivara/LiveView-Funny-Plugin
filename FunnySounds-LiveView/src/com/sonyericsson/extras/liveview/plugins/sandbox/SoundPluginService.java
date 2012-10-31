@@ -23,7 +23,6 @@
 
 package com.sonyericsson.extras.liveview.plugins.sandbox;
 
-import model.SoundManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +31,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.makingiants.liveview.funny.model.SoundManager;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
@@ -62,6 +62,8 @@ public class SoundPluginService extends AbstractPluginService {
 		if (handler == null) {
 			handler = new Handler();
 		}
+		
+		//mLiveViewAdapter.screenOnAuto(mPluginId);
 	}
 	
 	public void onCreate() {
@@ -192,8 +194,8 @@ public class SoundPluginService extends AbstractPluginService {
 	// ****************************************************************
 	
 	protected void button(final String buttonType, final boolean doublepress, final boolean longpress) {
-		// Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType
-		// + ", doublepress " + doublepress + ", longpress " + longpress);
+		Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType + ", doublepress " + doublepress
+		        + ", longpress " + longpress);
 		
 		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
 			//showText(soundManager.jumpPastCategory(), 220, 65);
@@ -218,6 +220,7 @@ public class SoundPluginService extends AbstractPluginService {
 			soundManager.playSound();
 			
 		}
+		
 	}
 	
 	protected void displayCaps(final int displayWidthPx, final int displayHeigthPx) {
@@ -235,10 +238,12 @@ public class SoundPluginService extends AbstractPluginService {
 	}
 	
 	protected void screenMode(final int mode) {
-		// Log.d(PluginConstants.LOG_TAG, "screenMode: screen is now " + ((mode
-		// == 0) ? "OFF" : "ON"));
+		Log.d(PluginConstants.LOG_TAG, "screenMode: screen is now " + ((mode == 0) ? "OFF" : "ON"));
 		
-		if (mode == PluginConstants.LIVE_SCREEN_MODE_ON) {
+		/*if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
+			mLiveViewAdapter.screenOn(mPluginId);
+		}*/
+		if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
 			startUpdates();
 		}
 	}

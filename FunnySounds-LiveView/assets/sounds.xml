@@ -76,7 +76,7 @@
 
         <sound
             name="suspence"
-            file="uuu.mp3" />
+            file="suspence.mp3" />
     </category>
 
     <category name="Fart" >

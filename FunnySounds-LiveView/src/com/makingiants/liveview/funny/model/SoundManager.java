@@ -1,4 +1,4 @@
-package model;
+package com.makingiants.liveview.funny.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -147,9 +147,11 @@ public class SoundManager {
 					SoundPlayer.getInstance(context).play(sound.getPath());
 					
 				} catch (final IOException e) {
-					e.printStackTrace();
+					Log.e("LiveViewFunnyPluggin", "SoundManager 1", e);
 				} catch (final InterruptedException e) {
-					e.printStackTrace();
+					Log.e("LiveViewFunnyPluggin", "SoundManager 2", e);
+				} catch (Exception e) {
+					Log.e("LiveViewFunnyPluggin", "SoundManager 3", e);
 				}
 				
 			}

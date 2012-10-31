@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sonyericsson.extras.liveview.plugins.sandbox"
+    package="com.sonyericsson.extras.liveview.plugins"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-sdk android:minSdkVersion="4" />
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="14" />
 
     <application
         android:debuggable="true"
@@ -27,10 +29,14 @@
             android:name="com.sonyericsson.extras.liveview.plugins.PluginPreferences"
             android:label="Funny Sounds plugin preferences" >
             <intent-filter>
-                <action android:name="com.sonyericsson.extras.liveview.plugins.sandbox.PREFERENCES" >
-                </action>
+                <action android:name="com.sonyericsson.extras.liveview.plugins.sandbox.PREFERENCES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 

@@ -1,4 +1,4 @@
-package model;
+package com.makingiants.liveview.funny.model;
 
 public class Sound {
 
