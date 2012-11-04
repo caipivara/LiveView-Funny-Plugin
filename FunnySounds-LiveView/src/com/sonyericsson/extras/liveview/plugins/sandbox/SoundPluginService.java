@@ -218,7 +218,6 @@ public class SoundPluginService extends AbstractPluginService {
 			
 			// Play the sound
 			soundManager.playSound();
-			
 		}
 		
 	}

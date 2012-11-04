@@ -13,7 +13,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.content.Context;
 import android.util.Log;
 
-import com.expergine.nielda.music.SoundPlayer;
+import com.makingiants.nielda.music.SoundPlayer;
 
 public class SoundManager {
 	// ****************************************************************
@@ -141,17 +141,16 @@ public class SoundManager {
 		// mHandler.sendMessage(msg);
 		new Thread(new Runnable() {
 			public void run() {
+				
+				final Sound sound = sounds.get(actualCategory).get(actualSound);
 				try {
-					
-					final Sound sound = sounds.get(actualCategory).get(actualSound);
 					SoundPlayer.getInstance(context).play(sound.getPath());
-					
-				} catch (final IOException e) {
-					Log.e("LiveViewFunnyPluggin", "SoundManager 1", e);
-				} catch (final InterruptedException e) {
-					Log.e("LiveViewFunnyPluggin", "SoundManager 2", e);
+				} catch (IOException e) {
+					Log.e("IOException", "SoundManager 1", e);
+				} catch (InterruptedException e) {
+					Log.e("InterruptedException", "SoundManager 2", e);
 				} catch (Exception e) {
-					Log.e("LiveViewFunnyPluggin", "SoundManager 3", e);
+					Log.e("Exception", "SoundManager 3", e);
 				}
 				
 			}
