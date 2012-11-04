@@ -238,20 +238,14 @@ public class SoundPluginService extends AbstractPluginService {
 	}
 	
 	protected void screenMode(final int mode) {
-		Log.d(PluginConstants.LOG_TAG, "screenMode: screen is now " + ((mode == 0) ? "OFF" : "ON"));
+		//Log.d(PluginConstants.LOG_TAG, "screenMode: screen is now " + ((mode == 0) ? "OFF" : "ON"));
 		
 		/*if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
 			mLiveViewAdapter.screenOn(mPluginId);
 		}*/
 		if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
-			startUpdates();
+			startWork();
 		}
-	}
-	
-	private void startUpdates() {
-		
-		// Play the sound
-		soundManager.playSound();
 	}
 	
 }

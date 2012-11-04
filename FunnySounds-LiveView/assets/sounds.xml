@@ -1,20 +1,5 @@
 <sounds>
 
-    <category name="Aaa" >
-
-        <sound
-            name="long"
-            file="aaa long.mp3" />
-
-        <sound
-            name="short"
-            file="aaa short.mp3" />
-
-        <sound
-            name="aaa"
-            file="aaa.mp3" />
-    </category>
-
     <category name="Vehicles" >
 
         <sound
@@ -44,19 +29,31 @@
     <category name="Voices" >
 
         <sound
-            name="ooo"
+            name="Aa long"
+            file="aaa long.mp3" />
+
+        <sound
+            name="Aa short"
+            file="aaa short.mp3" />
+
+        <sound
+            name=":("
+            file="aaa.mp3" />
+
+        <sound
+            name="Ooo"
             file="ooo.mp3" />
 
         <sound
-            name="ouch!"
+            name="Ouch!"
             file="ouch!.mp3" />
 
         <sound
-            name="uuu"
+            name="Uuu"
             file="uuu.mp3" />
 
         <sound
-            name="Moan"
+            name="Woman moan"
             file="woman moan.mp3" />
 
         <sound
@@ -75,11 +72,19 @@
     <category name="Moments" >
 
         <sound
-            name="suspence"
+            name="Suspence"
             file="suspence.mp3" />
+
+        <sound
+            name="Applause"
+            file="applause.mp3" />
+
+        <sound
+            name="Burp"
+            file="burp.mp3" />
     </category>
 
-    <category name="Fart" >
+    <category name="Farts" >
 
         <sound
             name="Quickie"
