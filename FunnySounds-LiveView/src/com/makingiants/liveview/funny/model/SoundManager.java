@@ -80,11 +80,10 @@ public class SoundManager {
 		String nextCategory = "";
 		Iterator<String> iterator = sounds.keySet().iterator();
 		
-		Log.d("eee actual", actualCategory);
 		while (iterator.hasNext()) {
 			
 			nextCategory = iterator.next();
-			Log.d("eee next", nextCategory);
+			
 			if (nextCategory.equals(actualCategory)) {
 				if (iterator.hasNext()) {
 					nextCategory = iterator.next();

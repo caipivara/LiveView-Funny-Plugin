@@ -23,18 +23,27 @@
 
 package com.sonyericsson.extras.liveview.plugins.sandbox;
 
+import java.io.InputStream;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.makingiants.liveview.funny.model.SoundManager;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
+import com.sonyericsson.extras.liveview.plugins.R;
 
 public class SoundPluginService extends AbstractPluginService {
 	
@@ -47,6 +56,10 @@ public class SoundPluginService extends AbstractPluginService {
 	
 	// Workers
 	private SoundManager soundManager = null;
+	
+	// Paint used in canvas to create bitmap for texts
+	private Paint categoryPaint;
+	private Paint soundPaint;
 	
 	// ****************************************************************
 	// Service Overrides
@@ -63,7 +76,25 @@ public class SoundPluginService extends AbstractPluginService {
 			handler = new Handler();
 		}
 		
-		//mLiveViewAdapter.screenOnAuto(mPluginId);
+		if (categoryPaint == null) {
+			categoryPaint = new Paint();
+			categoryPaint.setColor(Color.WHITE);
+			categoryPaint.setTextSize(20); // Text Size
+			categoryPaint.setTypeface(Typeface.SANS_SERIF);
+			categoryPaint.setShadowLayer(5.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
+			categoryPaint.setAntiAlias(true);
+			categoryPaint.setTextAlign(Align.CENTER);
+			
+		}
+		if (soundPaint == null) {
+			soundPaint = new Paint();
+			soundPaint.setColor(Color.WHITE);
+			soundPaint.setTextSize(12); // Text Size
+			soundPaint.setTypeface(Typeface.SANS_SERIF);
+			soundPaint.setAntiAlias(true);
+			soundPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
+			soundPaint.setTextAlign(Align.CENTER);
+		}
 	}
 	
 	public void onCreate() {
@@ -89,9 +120,7 @@ public class SoundPluginService extends AbstractPluginService {
 	 */
 	protected void startWork() {
 		
-		showTextDelayed(
-		        String.format("%s - %s", soundManager.getActualCategory(),
-		                soundManager.getActualSound()), 100, 10);
+		showTextDelayed(soundManager.getActualCategory(), soundManager.getActualSound());
 	}
 	
 	/**
@@ -150,43 +179,52 @@ public class SoundPluginService extends AbstractPluginService {
 	// GUI Changes
 	// ****************************************************************
 	
-	private void showTextDelayed(final String text, final int bitmapSizeX, final int fontSize) {
+	private void showTextDelayed(final String category, final String sound) {
 		handler.postDelayed(new Runnable() {
 			
 			public void run() {
-				// First message to LiveView
-				try {
-					
-					mLiveViewAdapter.clearDisplay(mPluginId);
-				} catch (final Exception e) {
-					Log.e(PluginConstants.LOG_TAG, "Failed to clear display.");
-				}
 				
-				PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
-				
+				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
+				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
+				        getBackgroundBitmapWithText(category, sound));
 			}
 		}, 1000);
 		
 	}
 	
-	private void showText(final String text, final int bitmapSizeX, final int fontSize) {
+	private void showText(final String category, final String sound) {
 		
 		handler.post(new Runnable() {
 			
 			public void run() {
-				// First message to LiveView
-				try {
-					
-					mLiveViewAdapter.clearDisplay(mPluginId);
-				} catch (final Exception e) {
-					Log.e(PluginConstants.LOG_TAG, "Failed to clear display.");
-				}
 				
-				PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
-				
+				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
+				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
+				        getBackgroundBitmapWithText(category, sound));
 			}
 		});
 		
+	}
+	
+	/**
+	 * Create a bitmap with background image and strings drawed on in
+	 * 
+	 * @param category
+	 * @param sound
+	 * @return
+	 */
+	private Bitmap getBackgroundBitmapWithText(String category, String sound) {
+		InputStream is = this.getResources().openRawResource(R.drawable.background);
+		Bitmap background = BitmapFactory.decodeStream(is).copy(Bitmap.Config.RGB_565, true);
+		
+		Canvas canvas = new Canvas(background);
+		
+		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 40,
+		        categoryPaint);
+		canvas.drawText(sound, (PluginConstants.LIVEVIEW_SCREEN_X - sound.length()) / 2, 100,
+		        soundPaint);
+		
+		return background;
 	}
 	
 	// ****************************************************************
@@ -194,26 +232,18 @@ public class SoundPluginService extends AbstractPluginService {
 	// ****************************************************************
 	
 	protected void button(final String buttonType, final boolean doublepress, final boolean longpress) {
-		Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType + ", doublepress " + doublepress
-		        + ", longpress " + longpress);
+		//Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType + ", doublepress " + doublepress
+		//        + ", longpress " + longpress);
 		
 		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
 			//showText(soundManager.jumpPastCategory(), 220, 65);
-			showText(
-			        String.format("%s - %s", soundManager.jumpPastCategory(),
-			                soundManager.getActualSound()), 100, 10);
+			showText(soundManager.jumpPastCategory(), soundManager.getActualSound());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-			showText(
-			        String.format("%s - %s", soundManager.jumpNextCategory(),
-			                soundManager.getActualSound()), 100, 10);
+			showText(soundManager.jumpNextCategory(), soundManager.getActualSound());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
-			showText(
-			        String.format("%s - %s", soundManager.getActualCategory(),
-			                soundManager.jumpPastSound()), 100, 10);
+			showText(soundManager.getActualCategory(), soundManager.jumpPastSound());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
-			showText(
-			        String.format("%s - %s", soundManager.getActualCategory(),
-			                soundManager.jumpNextSound()), 100, 10);
+			showText(soundManager.getActualCategory(), soundManager.jumpNextSound());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
 			
 			// Play the sound
@@ -237,11 +267,7 @@ public class SoundPluginService extends AbstractPluginService {
 	}
 	
 	protected void screenMode(final int mode) {
-		//Log.d(PluginConstants.LOG_TAG, "screenMode: screen is now " + ((mode == 0) ? "OFF" : "ON"));
 		
-		/*if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
-			mLiveViewAdapter.screenOn(mPluginId);
-		}*/
 		if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
 			startWork();
 		}

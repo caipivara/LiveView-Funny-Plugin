@@ -28,7 +28,7 @@
 
         <activity
             android:name="com.sonyericsson.extras.liveview.plugins.PluginPreferences"
-            android:label="Funny Sounds plugin preferences" >
+            android:label="Funny Sounds" >
             <intent-filter>
                 <action android:name="com.sonyericsson.extras.liveview.plugins.sandbox.PREFERENCES" />
 

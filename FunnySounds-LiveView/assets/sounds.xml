@@ -17,17 +17,43 @@
 
     <category name="Rain" >
 
+      
+    </category>
+
+
+    <category name="Environment" >
+
         <sound
-            name="Long"
+            name="Suspence"
+            file="suspence.mp3" />
+
+          <sound
+            name="Rain Long"
             file="rain long.mp3" />
 
         <sound
-            name="Big"
+            name="Rain Big"
             file="rain big.mp3" />
     </category>
 
-    <category name="Voices" >
+    <category name="Human" >
 
+        <sound
+            name="Applause"
+            file="applause.mp3" />
+
+        <sound
+            name="Burp"
+            file="burp.mp3" />
+        
+        <sound
+            name="Quickie Fart"
+            file="fart quick.mp3" />
+
+        <sound
+            name="Bum Fart"
+            file="fart big.mp3" />
+        
         <sound
             name="Aa long"
             file="aaa long.mp3" />
@@ -61,38 +87,16 @@
             file="shut up.mp3" />
 
         <sound
+            name="Demons"
+            file="demon girls.mp3" />
+
+        <sound
             name="Scream"
             file="scream.mp3" />
 
         <sound
             name="wawawa"
             file="wawawa.mp3" />
-    </category>
-
-    <category name="Moments" >
-
-        <sound
-            name="Suspence"
-            file="suspence.mp3" />
-
-        <sound
-            name="Applause"
-            file="applause.mp3" />
-
-        <sound
-            name="Burp"
-            file="burp.mp3" />
-    </category>
-
-    <category name="Farts" >
-
-        <sound
-            name="Quickie"
-            file="fart quick.mp3" />
-
-        <sound
-            name="Bum!"
-            file="fart big.mp3" />
     </category>
 
 </sounds>
