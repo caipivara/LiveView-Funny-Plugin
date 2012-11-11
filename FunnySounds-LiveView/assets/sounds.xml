@@ -13,47 +13,57 @@
         <sound
             name="Police"
             file="police.mp3" />
+
+        <sound
+            name="Police 2"
+            file="police siren.mp3" />
+
+        <sound
+            name="Car alarm"
+            file="car alarm.mp3" />
     </category>
 
-    <category name="Rain" >
+    <category name="Joke" >
 
-      
+        <sound
+            name="Cricket"
+            file="cricket.mp3" />
+
+        <sound
+            name="Bad trumpet"
+            file="sad trumpet.mp3" />
+
+        <sound
+            name="Bad drum"
+            file="drumroll.mp3" />
+
+        <sound
+            name="wawawa"
+            file="wawawa.mp3" />
     </category>
-
+s
 
     <category name="Environment" >
 
         <sound
-            name="Suspence"
+            name="Suspence 1"
             file="suspence.mp3" />
 
-          <sound
-            name="Rain Long"
-            file="rain long.mp3" />
+        <sound
+            name="Suspence 2"
+            file="suspence 2.mp3" />
 
         <sound
-            name="Rain Big"
-            file="rain big.mp3" />
+            name="Suspence 3"
+            file="suspence 3.mp3" />
+
+        <sound
+            name="Suspence 4"
+            file="suspence 4.mp3" />
     </category>
 
-    <category name="Human" >
+    <category name="People" >
 
-        <sound
-            name="Applause"
-            file="applause.mp3" />
-
-        <sound
-            name="Burp"
-            file="burp.mp3" />
-        
-        <sound
-            name="Quickie Fart"
-            file="fart quick.mp3" />
-
-        <sound
-            name="Bum Fart"
-            file="fart big.mp3" />
-        
         <sound
             name="Aa long"
             file="aaa long.mp3" />
@@ -71,32 +81,69 @@
             file="ooo.mp3" />
 
         <sound
-            name="Ouch!"
-            file="ouch!.mp3" />
-
-        <sound
             name="Uuu"
             file="uuu.mp3" />
 
         <sound
-            name="Woman moan"
-            file="woman moan.mp3" />
-
-        <sound
-            name="Shut up!"
-            file="shut up.mp3" />
-
-        <sound
-            name="Demons"
-            file="demon girls.mp3" />
-
-        <sound
             name="Scream"
             file="scream.mp3" />
+    </category>
+
+    <category name="Farts" >
 
         <sound
-            name="wawawa"
-            file="wawawa.mp3" />
+            name="Quickie"
+            file="fart quick.mp3" />
+
+        <sound
+            name="Bum"
+            file="fart big.mp3" />
+
+        <sound
+            name="Stages"
+            file="fart stages.mp3" />
+
+        <sound
+            name="Strong"
+            file="fart strong.mp3" />
+
+        <sound
+            name="Wops"
+            file="fart wops.mp3" />
+
+        <sound
+            name="Bum"
+            file="fart big.mp3" />
+
+        <sound
+            name="Sonorous"
+            file="fart sonorous.mp3" />
+    </category>
+
+    <category name="Body" >
+
+        <sound
+            name="Applause"
+            file="applause.mp3" />
+
+        <sound
+            name="Burp"
+            file="burp.mp3" />
+    </category>
+
+    <category name="Animals" >
+
+        <sound
+            name="Cow"
+            file="cow.mp3" />
+
+        <sound
+            name="Cat"
+            file="cat.mp3" />
+
+        <sound
+            name="Panter"
+            file="panter.mp3" />
     </category>
 
 </sounds>

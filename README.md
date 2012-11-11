@@ -19,6 +19,12 @@ WebPage
 http://www.makingiants.com/
 
 
+Sounds Bank
+===========
+
+Thanks for some sounds
+http://soundbible.com/
+http://www.mysoundfx.com/
 
 About
 ===========
