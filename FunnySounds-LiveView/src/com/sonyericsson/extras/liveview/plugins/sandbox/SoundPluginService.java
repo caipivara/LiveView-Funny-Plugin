@@ -213,11 +213,11 @@ public class SoundPluginService extends AbstractPluginService {
 	 * @param sound
 	 * @return
 	 */
-	private Bitmap getBackgroundBitmapWithText(String category, String sound) {
-		InputStream is = this.getResources().openRawResource(R.drawable.background);
-		Bitmap background = BitmapFactory.decodeStream(is).copy(Bitmap.Config.RGB_565, true);
+	private Bitmap getBackgroundBitmapWithText(final String category, final String sound) {
+		final InputStream is = this.getResources().openRawResource(R.drawable.background);
+		final Bitmap background = BitmapFactory.decodeStream(is).copy(Bitmap.Config.RGB_565, true);
 		
-		Canvas canvas = new Canvas(background);
+		final Canvas canvas = new Canvas(background);
 		
 		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 40,
 		        categoryPaint);

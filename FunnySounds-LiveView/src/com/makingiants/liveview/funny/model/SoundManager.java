@@ -11,9 +11,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.util.Log;
-
-import com.makingiants.nielda.music.SoundPlayer;
 
 public class SoundManager {
 	// ****************************************************************
@@ -25,6 +25,8 @@ public class SoundManager {
 	private final Context context;
 	private int actualSound;
 	private String actualCategory;
+	
+	private MediaPlayer player;
 	
 	// ****************************************************************
 	// Constructor
@@ -78,7 +80,7 @@ public class SoundManager {
 	public String jumpNextCategory() {
 		
 		String nextCategory = "";
-		Iterator<String> iterator = sounds.keySet().iterator();
+		final Iterator<String> iterator = sounds.keySet().iterator();
 		
 		while (iterator.hasNext()) {
 			
@@ -106,7 +108,7 @@ public class SoundManager {
 		
 		String nextCategory = "";
 		String pastCategory = "";
-		Iterator<String> iterator = sounds.keySet().iterator();
+		final Iterator<String> iterator = sounds.keySet().iterator();
 		
 		while (iterator.hasNext()) {
 			
@@ -136,12 +138,33 @@ public class SoundManager {
 	
 	public void playSound() {
 		// Play the sound
-		// final Message msg = Message.obtain(mHandler, this);
-		// mHandler.sendMessage(msg);
+		
 		new Thread(new Runnable() {
 			public void run() {
 				
 				final Sound sound = sounds.get(actualCategory).get(actualSound);
+				try {
+					if (player != null && player.isPlaying()) {
+						player.stop();
+					} else {
+						
+						final AssetFileDescriptor afd = context.getAssets().openFd(sound.getFile());
+						player = new MediaPlayer();
+						player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(),
+						        afd.getLength());
+						player.prepare();
+						player.start();
+					}
+				} catch (final IllegalArgumentException e) {
+					Log.e("IllegalArgumentException", "SoundManager 1", e);
+				} catch (final IllegalStateException e) {
+					Log.e("IllegalStateException", "SoundManager 2", e);
+				} catch (final IOException e) {
+					Log.e("IOException", "SoundManager 3", e);
+				}
+				
+				//MediaPlayer.create(this, R.raw.start).start();
+				/*MediaPlayer.create(this, new U(sound.getPath()));
 				try {
 					SoundPlayer.getInstance(context).play(sound.getPath());
 				} catch (IOException e) {
@@ -150,7 +173,7 @@ public class SoundManager {
 					Log.e("InterruptedException", "SoundManager 2", e);
 				} catch (Exception e) {
 					Log.e("Exception", "SoundManager 3", e);
-				}
+				}*/
 				
 			}
 		}).start();
