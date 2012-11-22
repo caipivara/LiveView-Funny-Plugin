@@ -31,7 +31,7 @@
             file="Vehicles/alarm.mp3" />
     </category>
 
-    <category name="Joke" >
+    <category name="Joker" >
 
         <sound
             name="Cricket"
@@ -54,7 +54,7 @@
             file="Joke/wrong.mp3" />
     </category>
 
-    <category name="Cartoon" >
+    <category name="Cartoon!" >
 
         <sound
             name="Boing"
@@ -145,6 +145,10 @@
         <sound
             name="Uuu"
             file="Voices/uuu.mp3" />
+
+        <sound
+            name="Pss"
+            file="Voices/Pss.mp3" />
     </category>
 
     <category name="Farts" >
@@ -261,7 +265,7 @@
 
         <sound
             name="Dog"
-            file="Animals/dog.mp3" />
+            file="Animals/dogy.mp3" />
 
         <sound
             name="Horse"

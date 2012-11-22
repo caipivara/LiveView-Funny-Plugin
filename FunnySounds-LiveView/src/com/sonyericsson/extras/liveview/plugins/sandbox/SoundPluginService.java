@@ -38,8 +38,10 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
-import com.makingiants.liveview.funny.model.SoundManager;
+import com.makingiants.liveview.funny.model.SoundCategoryManager;
+import com.makingiants.liveview.funny.model.SoundCategoryManager.ACTUAL_CATEGORY_STATE;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
@@ -55,11 +57,14 @@ public class SoundPluginService extends AbstractPluginService {
 	private Handler handler;
 	
 	// Workers
-	private SoundManager soundManager = null;
+	private SoundCategoryManager soundManager = null;
 	
 	// Paint used in canvas to create bitmap for texts
 	private Paint categoryPaint;
 	private Paint soundPaint;
+	
+	// Streams for background image in LiveView
+	private InputStream inputStreamBackgroundTop, inputStreamBackground, inputStreamBackgroundBottom;
 	
 	// ****************************************************************
 	// Service Overrides
@@ -69,7 +74,7 @@ public class SoundPluginService extends AbstractPluginService {
 		super.onStart(intent, startId);
 		
 		if (soundManager == null) {
-			soundManager = new SoundManager(this);
+			soundManager = new SoundCategoryManager(this);
 		}
 		
 		if (handler == null) {
@@ -94,6 +99,17 @@ public class SoundPluginService extends AbstractPluginService {
 			soundPaint.setAntiAlias(true);
 			soundPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
 			soundPaint.setTextAlign(Align.CENTER);
+		}
+		
+		if (inputStreamBackgroundTop == null) {
+			inputStreamBackgroundTop = this.getResources().openRawResource(R.drawable.background_top);
+		}
+		if (inputStreamBackground == null) {
+			inputStreamBackground = this.getResources().openRawResource(R.drawable.background);
+		}
+		if (inputStreamBackgroundBottom == null) {
+			inputStreamBackgroundBottom = this.getResources().openRawResource(
+			        R.drawable.background_bottom);
 		}
 	}
 	
@@ -188,7 +204,7 @@ public class SoundPluginService extends AbstractPluginService {
 				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
 				        getBackgroundBitmapWithText(category, sound));
 			}
-		}, 1000);
+		}, 500);
 		
 	}
 	
@@ -214,8 +230,25 @@ public class SoundPluginService extends AbstractPluginService {
 	 * @return
 	 */
 	private Bitmap getBackgroundBitmapWithText(final String category, final String sound) {
-		final InputStream is = this.getResources().openRawResource(R.drawable.background);
-		final Bitmap background = BitmapFactory.decodeStream(is).copy(Bitmap.Config.RGB_565, true);
+		
+		ACTUAL_CATEGORY_STATE state = soundManager.getActualCategoryState();
+		InputStream isbackground;
+		
+		Log.d("Remote", state.toString());
+		
+		if (state == ACTUAL_CATEGORY_STATE.TOP) {
+			Log.d("Remote", "1");
+			isbackground = inputStreamBackgroundTop;
+		} else if (state == ACTUAL_CATEGORY_STATE.OTHER) {
+			Log.d("Remote", "2");
+			isbackground = inputStreamBackground;
+		} else {
+			Log.d("Remote", "3");
+			isbackground = inputStreamBackgroundBottom;
+		}
+		
+		final Bitmap background = BitmapFactory.decodeStream(isbackground).copy(Bitmap.Config.RGB_565,
+		        true);
 		
 		final Canvas canvas = new Canvas(background);
 		
