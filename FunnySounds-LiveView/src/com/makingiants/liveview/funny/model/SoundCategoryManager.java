@@ -1,14 +1,10 @@
 package com.makingiants.liveview.funny.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import com.makingiants.liveview.funny.model.dao.CategoryDAO;
-
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
-import android.util.Log;
+
+import com.makingiants.liveview.funny.model.dao.CategoryDAO;
 
 public class SoundCategoryManager {
 	// ****************************************************************
@@ -23,21 +19,14 @@ public class SoundCategoryManager {
 	private ArrayList<SoundCategory> categories;
 	private int actualCategory;
 	
-	// Player variables
-	private final Context context;
-	private MediaPlayer player;
-	
 	// ****************************************************************
 	// Constructor
 	// ****************************************************************
 	
 	public SoundCategoryManager(final Context context) {
 		
-		this.context = context;
-		
-		categories = CategoryDAO.getCategories(context);
-		
-		actualCategory = 0;
+		this.categories = CategoryDAO.getCategories(context);
+		this.actualCategory = 0;
 		
 	}
 	
@@ -45,9 +34,9 @@ public class SoundCategoryManager {
 	// Accessor Methods
 	// ****************************************************************
 	
-	public String getActualSound() {
+	public Sound getActualSound() {
 		SoundCategory category = categories.get(actualCategory);
-		return category.getActualSound().getName();
+		return category.getActualSound();
 	}
 	
 	public String getActualCategory() {
@@ -92,41 +81,6 @@ public class SoundCategoryManager {
 		}
 		return categories.get(actualCategory).getName();
 		
-	}
-	
-	// ****************************************************************
-	// Action Methods
-	// ****************************************************************
-	
-	public void playSound() {
-		// Play the sound
-		
-		new Thread(new Runnable() {
-			public void run() {
-				
-				final Sound sound = categories.get(actualCategory).getActualSound();
-				try {
-					if (player != null && player.isPlaying()) {
-						player.stop();
-					} else {
-						
-						final AssetFileDescriptor afd = context.getAssets().openFd(sound.getFile());
-						player = new MediaPlayer();
-						player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(),
-						        afd.getLength());
-						player.prepare();
-						player.start();
-					}
-				} catch (final IllegalArgumentException e) {
-					Log.e("IllegalArgumentException", "SoundManager 1", e);
-				} catch (final IllegalStateException e) {
-					Log.e("IllegalStateException", "SoundManager 2", e);
-				} catch (final IOException e) {
-					Log.e("IOException", "SoundManager 3", e);
-				}
-				
-			}
-		}).start();
 	}
 	
 }

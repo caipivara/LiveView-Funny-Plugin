@@ -21,8 +21,9 @@
  * THE SOFTWARE.
  */
 
-package com.sonyericsson.extras.liveview.plugins.sandbox;
+package com.makingiants.liveview.funny.liveview.plugins;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import android.content.ComponentName;
@@ -40,12 +41,13 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.makingiants.liveview.funny.R;
 import com.makingiants.liveview.funny.model.SoundCategoryManager;
 import com.makingiants.liveview.funny.model.SoundCategoryManager.ACTUAL_CATEGORY_STATE;
+import com.makingiants.liveview.funny.model.SoundPlayer;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
-import com.sonyericsson.extras.liveview.plugins.R;
 
 public class SoundPluginService extends AbstractPluginService {
 	
@@ -57,7 +59,8 @@ public class SoundPluginService extends AbstractPluginService {
 	private Handler handler;
 	
 	// Workers
-	private SoundCategoryManager soundManager = null;
+	private SoundCategoryManager soundManager;
+	private SoundPlayer player;
 	
 	// Paint used in canvas to create bitmap for texts
 	private Paint categoryPaint;
@@ -111,6 +114,10 @@ public class SoundPluginService extends AbstractPluginService {
 			inputStreamBackgroundBottom = this.getResources().openRawResource(
 			        R.drawable.background_bottom);
 		}
+		
+		if (player == null) {
+			player = new SoundPlayer(this);
+		}
 	}
 	
 	public void onCreate() {
@@ -136,7 +143,10 @@ public class SoundPluginService extends AbstractPluginService {
 	 */
 	protected void startWork() {
 		
-		showTextDelayed(soundManager.getActualCategory(), soundManager.getActualSound());
+		// Check if plugin is enabled.
+		if (mSharedPreferences.getBoolean(PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
+			showTextDelayed(soundManager.getActualCategory(), soundManager.getActualSound().getName());
+		}
 	}
 	
 	/**
@@ -270,17 +280,21 @@ public class SoundPluginService extends AbstractPluginService {
 		
 		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
 			//showText(soundManager.jumpPastCategory(), 220, 65);
-			showText(soundManager.jumpPastCategory(), soundManager.getActualSound());
+			showText(soundManager.jumpPastCategory(), soundManager.getActualSound().getName());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-			showText(soundManager.jumpNextCategory(), soundManager.getActualSound());
+			showText(soundManager.jumpNextCategory(), soundManager.getActualSound().getName());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
 			showText(soundManager.getActualCategory(), soundManager.jumpPastSound());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
 			showText(soundManager.getActualCategory(), soundManager.jumpNextSound());
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
-			
-			// Play the sound
-			soundManager.playSound();
+			try {
+				player.play(soundManager.getActualSound().getFile());
+			} catch (IOException e) {
+				Log.e("SoundPluginService", "IOException 1", e);
+			} catch (InterruptedException e) {
+				Log.e("SoundPluginService", "InterruptedException 2", e);
+			}
 		}
 		
 	}
