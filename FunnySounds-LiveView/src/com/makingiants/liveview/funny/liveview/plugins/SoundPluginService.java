@@ -244,16 +244,11 @@ public class SoundPluginService extends AbstractPluginService {
 		ACTUAL_CATEGORY_STATE state = soundManager.getActualCategoryState();
 		InputStream isbackground;
 		
-		Log.d("Remote", state.toString());
-		
 		if (state == ACTUAL_CATEGORY_STATE.TOP) {
-			Log.d("Remote", "1");
 			isbackground = inputStreamBackgroundTop;
 		} else if (state == ACTUAL_CATEGORY_STATE.OTHER) {
-			Log.d("Remote", "2");
 			isbackground = inputStreamBackground;
 		} else {
-			Log.d("Remote", "3");
 			isbackground = inputStreamBackgroundBottom;
 		}
 		
@@ -315,9 +310,6 @@ public class SoundPluginService extends AbstractPluginService {
 	
 	protected void screenMode(final int mode) {
 		
-		if (mode != PluginConstants.LIVE_SCREEN_MODE_ON) {
-			startWork();
-		}
 	}
 	
 }
