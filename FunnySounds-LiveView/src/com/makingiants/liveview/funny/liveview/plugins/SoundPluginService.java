@@ -24,7 +24,6 @@
 package com.makingiants.liveview.funny.liveview.plugins;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -67,7 +66,7 @@ public class SoundPluginService extends AbstractPluginService {
 	private Paint soundPaint;
 	
 	// Streams for background image in LiveView
-	private InputStream inputStreamBackgroundTop, inputStreamBackground, inputStreamBackgroundBottom;
+	private Bitmap bitmapBackgroundTop, bitmapBackground, bitmapBackgroundBottom;
 	
 	// ****************************************************************
 	// Service Overrides
@@ -104,15 +103,18 @@ public class SoundPluginService extends AbstractPluginService {
 			soundPaint.setTextAlign(Align.CENTER);
 		}
 		
-		if (inputStreamBackgroundTop == null) {
-			inputStreamBackgroundTop = this.getResources().openRawResource(R.drawable.background_top);
+		if (bitmapBackgroundTop == null) {
+			
+			bitmapBackgroundTop = BitmapFactory.decodeStream(this.getResources().openRawResource(
+			        R.drawable.background_top));
 		}
-		if (inputStreamBackground == null) {
-			inputStreamBackground = this.getResources().openRawResource(R.drawable.background);
+		if (bitmapBackground == null) {
+			bitmapBackground = BitmapFactory.decodeStream(this.getResources().openRawResource(
+			        R.drawable.background));
 		}
-		if (inputStreamBackgroundBottom == null) {
-			inputStreamBackgroundBottom = this.getResources().openRawResource(
-			        R.drawable.background_bottom);
+		if (bitmapBackgroundBottom == null) {
+			bitmapBackgroundBottom = BitmapFactory.decodeStream(this.getResources().openRawResource(
+			        R.drawable.background_bottom));
 		}
 		
 		if (player == null) {
@@ -202,70 +204,6 @@ public class SoundPluginService extends AbstractPluginService {
 	}
 	
 	// ****************************************************************
-	// GUI Changes
-	// ****************************************************************
-	
-	private void showTextDelayed(final String category, final String sound) {
-		handler.postDelayed(new Runnable() {
-			
-			public void run() {
-				
-				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
-				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
-				        getBackgroundBitmapWithText(category, sound));
-			}
-		}, 500);
-		
-	}
-	
-	private void showText(final String category, final String sound) {
-		
-		handler.post(new Runnable() {
-			
-			public void run() {
-				
-				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
-				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
-				        getBackgroundBitmapWithText(category, sound));
-			}
-		});
-		
-	}
-	
-	/**
-	 * Create a bitmap with background image and strings drawed on in
-	 * 
-	 * @param category
-	 * @param sound
-	 * @return
-	 */
-	private Bitmap getBackgroundBitmapWithText(final String category, final String sound) {
-		
-		ACTUAL_CATEGORY_STATE state = soundManager.getActualCategoryState();
-		InputStream isbackground;
-		
-		if (state == ACTUAL_CATEGORY_STATE.TOP) {
-			isbackground = inputStreamBackgroundTop;
-		} else if (state == ACTUAL_CATEGORY_STATE.OTHER) {
-			isbackground = inputStreamBackground;
-		} else {
-			isbackground = inputStreamBackgroundBottom;
-		}
-		
-		final Bitmap background = BitmapFactory.decodeStream(isbackground).copy(Bitmap.Config.RGB_565,
-		        true);
-		
-		final Canvas canvas = new Canvas(background);
-		
-		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 40,
-		        categoryPaint);
-		canvas.drawText(sound, (PluginConstants.LIVEVIEW_SCREEN_X - sound.length()) / 2, 100,
-		        soundPaint);
-		
-		return background;
-	}
-	
-	// ****************************************************************
 	// Events
 	// ****************************************************************
 	
@@ -312,4 +250,67 @@ public class SoundPluginService extends AbstractPluginService {
 		
 	}
 	
+	// ****************************************************************
+	// GUI Changes
+	// ****************************************************************
+	
+	private void showTextDelayed(final String category, final String sound) {
+		handler.postDelayed(new Runnable() {
+			
+			public void run() {
+				
+				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
+				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
+				        getBackgroundBitmapWithText(category, sound));
+			}
+		}, 500);
+		
+	}
+	
+	private void showText(final String category, final String sound) {
+		
+		handler.post(new Runnable() {
+			
+			public void run() {
+				
+				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
+				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
+				        getBackgroundBitmapWithText(category, sound));
+				
+			}
+		});
+		
+	}
+	
+	/**
+	 * Create a bitmap with background image and strings drawed on in
+	 * 
+	 * @param category
+	 * @param sound
+	 * @return
+	 */
+	private Bitmap getBackgroundBitmapWithText(final String category, final String sound) {
+		
+		ACTUAL_CATEGORY_STATE state = soundManager.getActualCategoryState();
+		Bitmap background;
+		
+		if (state == ACTUAL_CATEGORY_STATE.TOP) {
+			background = bitmapBackgroundTop;
+		} else if (state == ACTUAL_CATEGORY_STATE.OTHER) {
+			background = bitmapBackground;
+		} else {
+			background = bitmapBackgroundBottom;
+		}
+		
+		background = background.copy(Bitmap.Config.RGB_565, true);
+		
+		final Canvas canvas = new Canvas(background);
+		
+		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 40,
+		        categoryPaint);
+		canvas.drawText(sound, (PluginConstants.LIVEVIEW_SCREEN_X - sound.length()) / 2, 100,
+		        soundPaint);
+		
+		return background;
+	}
 }
