@@ -41,9 +41,8 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.makingiants.liveview.funny.R;
-import com.makingiants.liveview.funny.model.SoundCategoryManager;
-import com.makingiants.liveview.funny.model.SoundCategoryManager.ACTUAL_CATEGORY_STATE;
 import com.makingiants.liveview.funny.model.SoundPlayer;
+import com.makingiants.liveview.funny.model.sounds.CategoryManager;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
@@ -58,15 +57,14 @@ public class SoundPluginService extends AbstractPluginService {
 	private Handler handler;
 	
 	// Workers
-	private SoundCategoryManager soundManager;
+	private CategoryManager soundManager;
 	private SoundPlayer player;
 	
 	// Paint used in canvas to create bitmap for texts
-	private Paint categoryPaint;
-	private Paint soundPaint;
+	private Paint categoryPaint, soundPaint, numbersPaint;
 	
 	// Streams for background image in LiveView
-	private Bitmap bitmapBackgroundTop, bitmapBackground, bitmapBackgroundBottom;
+	private Bitmap bitmapBackground;
 	
 	// ****************************************************************
 	// Service Overrides
@@ -76,7 +74,7 @@ public class SoundPluginService extends AbstractPluginService {
 		super.onStart(intent, startId);
 		
 		if (soundManager == null) {
-			soundManager = new SoundCategoryManager(this);
+			soundManager = new CategoryManager(this);
 		}
 		
 		if (handler == null) {
@@ -103,18 +101,19 @@ public class SoundPluginService extends AbstractPluginService {
 			soundPaint.setTextAlign(Align.CENTER);
 		}
 		
-		if (bitmapBackgroundTop == null) {
-			
-			bitmapBackgroundTop = BitmapFactory.decodeStream(this.getResources().openRawResource(
-			        R.drawable.background_top));
+		if (numbersPaint == null) {
+			numbersPaint = new Paint();
+			numbersPaint.setColor(Color.WHITE);
+			numbersPaint.setTextSize(11); // Text Size
+			numbersPaint.setTypeface(Typeface.SANS_SERIF);
+			numbersPaint.setAntiAlias(true);
+			numbersPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
+			numbersPaint.setTextAlign(Align.CENTER);
 		}
+		
 		if (bitmapBackground == null) {
 			bitmapBackground = BitmapFactory.decodeStream(this.getResources().openRawResource(
 			        R.drawable.background));
-		}
-		if (bitmapBackgroundBottom == null) {
-			bitmapBackgroundBottom = BitmapFactory.decodeStream(this.getResources().openRawResource(
-			        R.drawable.background_bottom));
 		}
 		
 		if (player == null) {
@@ -147,7 +146,8 @@ public class SoundPluginService extends AbstractPluginService {
 		
 		// Check if plugin is enabled.
 		if (mSharedPreferences.getBoolean(PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
-			showTextDelayed(soundManager.getActualCategory(), soundManager.getActualSound().getName());
+			showTextDelayed(soundManager.getActualCategoryNumber(), soundManager.getActualCategory(),
+			        soundManager.getActualSoundNumber(), soundManager.getActualSound().getName());
 		}
 	}
 	
@@ -212,14 +212,49 @@ public class SoundPluginService extends AbstractPluginService {
 		//        + ", longpress " + longpress);
 		
 		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
-			//showText(soundManager.jumpPastCategory(), 220, 65);
-			showText(soundManager.jumpPastCategory(), soundManager.getActualSound().getName());
+			
+			// Order of this calls are importand, first move and then check the number for the new 
+			// sound or categorys
+			String category = soundManager.movePreviousCategory();
+			String sound = soundManager.getActualSound().getName();
+			int actualCategory = soundManager.getActualCategoryNumber();
+			int actualSound = soundManager.getActualSoundNumber();
+			
+			showText(actualCategory, category, actualSound, sound);
+			
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-			showText(soundManager.jumpNextCategory(), soundManager.getActualSound().getName());
+			
+			// Order of this calls are importand, first move and then check the number for the new 
+			// sound or categorys
+			String category = soundManager.moveNextCategory();
+			String sound = soundManager.getActualSound().getName();
+			int actualCategory = soundManager.getActualCategoryNumber();
+			int actualSound = soundManager.getActualSoundNumber();
+			
+			showText(actualCategory, category, actualSound, sound);
+			
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
-			showText(soundManager.getActualCategory(), soundManager.jumpPastSound());
+			
+			// Order of this calls are importand, first move and then check the number for the new 
+			// sound or categorys
+			String category = soundManager.getActualCategory();
+			String sound = soundManager.movePreviousSound();
+			int actualCategory = soundManager.getActualCategoryNumber();
+			int actualSound = soundManager.getActualSoundNumber();
+			
+			showText(actualCategory, category, actualSound, sound);
+			
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
-			showText(soundManager.getActualCategory(), soundManager.jumpNextSound());
+			
+			// Order of this calls are importand, first move and then check the number for the new 
+			// sound or categorys
+			String category = soundManager.getActualCategory();
+			String sound = soundManager.moveNextSound();
+			int actualCategory = soundManager.getActualCategoryNumber();
+			int actualSound = soundManager.getActualSoundNumber();
+			
+			showText(actualCategory, category, actualSound, sound);
+			
 		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
 			try {
 				player.play(soundManager.getActualSound().getFile());
@@ -254,20 +289,20 @@ public class SoundPluginService extends AbstractPluginService {
 	// GUI Changes
 	// ****************************************************************
 	
-	private void showTextDelayed(final String category, final String sound) {
+	private void showTextDelayed(final int categoryNumber, final String category, final int soundNumber, final String sound) {
 		handler.postDelayed(new Runnable() {
 			
 			public void run() {
 				
 				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
 				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
-				        getBackgroundBitmapWithText(category, sound));
+				        getBackgroundBitmapWithText(categoryNumber, category, soundNumber, sound));
 			}
 		}, 500);
 		
 	}
 	
-	private void showText(final String category, final String sound) {
+	private void showText(final int categoryNumber, final String category, final int soundNumber, final String sound) {
 		
 		handler.post(new Runnable() {
 			
@@ -275,7 +310,7 @@ public class SoundPluginService extends AbstractPluginService {
 				
 				//PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text, bitmapSizeX, fontSize);
 				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
-				        getBackgroundBitmapWithText(category, sound));
+				        getBackgroundBitmapWithText(categoryNumber, category, soundNumber, sound));
 				
 			}
 		});
@@ -289,26 +324,19 @@ public class SoundPluginService extends AbstractPluginService {
 	 * @param sound
 	 * @return
 	 */
-	private Bitmap getBackgroundBitmapWithText(final String category, final String sound) {
+	private Bitmap getBackgroundBitmapWithText(int categoryIndex, final String category, int soundIndex, final String sound) {
 		
-		ACTUAL_CATEGORY_STATE state = soundManager.getActualCategoryState();
-		Bitmap background;
-		
-		if (state == ACTUAL_CATEGORY_STATE.TOP) {
-			background = bitmapBackgroundTop;
-		} else if (state == ACTUAL_CATEGORY_STATE.OTHER) {
-			background = bitmapBackground;
-		} else {
-			background = bitmapBackgroundBottom;
-		}
-		
-		background = background.copy(Bitmap.Config.RGB_565, true);
+		Bitmap background = bitmapBackground.copy(Bitmap.Config.RGB_565, true);
 		
 		final Canvas canvas = new Canvas(background);
 		
-		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 40,
+		canvas.drawText(String.format("%d/%d", categoryIndex, soundManager.getCategoriesLength()),
+		        PluginConstants.LIVEVIEW_SCREEN_X / 2, 30, numbersPaint);
+		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 50,
 		        categoryPaint);
-		canvas.drawText(sound, (PluginConstants.LIVEVIEW_SCREEN_X - sound.length()) / 2, 100,
+		canvas.drawText(String.format("%d/%d", soundIndex, soundManager.getSoundsLength()),
+		        PluginConstants.LIVEVIEW_SCREEN_X / 2, 90, numbersPaint);
+		canvas.drawText(sound, (PluginConstants.LIVEVIEW_SCREEN_X - sound.length()) / 2, 105,
 		        soundPaint);
 		
 		return background;

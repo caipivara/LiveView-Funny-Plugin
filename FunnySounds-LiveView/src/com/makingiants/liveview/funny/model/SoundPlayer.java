@@ -11,11 +11,6 @@ import android.media.MediaPlayer.OnPreparedListener;
 
 /**
  * Sound player for android
- * 
- * Designed using singleton pattern
- * 
- * @author danielgomez22
- * 
  */
 public class SoundPlayer implements OnPreparedListener, OnCompletionListener {
 	
@@ -39,14 +34,6 @@ public class SoundPlayer implements OnPreparedListener, OnCompletionListener {
 		mediaPlayer.setVolume(1.0f, 1.0f);
 		mediaPlayer.setOnPreparedListener(this);
 		mediaPlayer.setOnCompletionListener(this);
-	}
-	
-	// ****************************************************************
-	// Accessor Methods
-	// ****************************************************************
-	
-	public void setContext(Context context) {
-		this.context = context;
 	}
 	
 	// ****************************************************************

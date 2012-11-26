@@ -8,8 +8,8 @@ import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import com.makingiants.liveview.funny.model.SoundCategory;
-import com.makingiants.liveview.funny.model.Sound;
+import com.makingiants.liveview.funny.model.sounds.Sound;
+import com.makingiants.liveview.funny.model.sounds.Category;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,10 +27,10 @@ public class CategoryDAO {
 	 * @param context actual context of the app
 	 * @return
 	 */
-	public static ArrayList<SoundCategory> getCategories(Context context) {
+	public static ArrayList<Category> getCategories(Context context) {
 		
-		ArrayList<SoundCategory> categories = new ArrayList<SoundCategory>();
-		SoundCategory categoryTemp = null;
+		ArrayList<Category> categories = new ArrayList<Category>();
+		Category categoryTemp = null;
 		
 		try {
 			
@@ -54,7 +54,7 @@ public class CategoryDAO {
 						
 						name = parser.getName();
 						if (name.equals("category")) {
-							categoryTemp = new SoundCategory(parser.getAttributeValue(0));
+							categoryTemp = new Category(parser.getAttributeValue(0));
 						} else if (name.equals("sound")) {
 							
 							categoryTemp.addSound(new Sound(parser.getAttributeValue(0), parser
