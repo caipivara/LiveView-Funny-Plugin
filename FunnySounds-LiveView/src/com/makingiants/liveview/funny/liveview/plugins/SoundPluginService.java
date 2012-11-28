@@ -33,7 +33,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.IBinder;
@@ -88,7 +87,7 @@ public class SoundPluginService extends AbstractPluginService {
 			categoryPaint.setTypeface(Typeface.SANS_SERIF);
 			categoryPaint.setShadowLayer(5.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
 			categoryPaint.setAntiAlias(true);
-			categoryPaint.setTextAlign(Align.CENTER);
+			categoryPaint.setTextAlign(Paint.Align.CENTER);
 			
 		}
 		if (soundPaint == null) {
@@ -98,7 +97,7 @@ public class SoundPluginService extends AbstractPluginService {
 			soundPaint.setTypeface(Typeface.SANS_SERIF);
 			soundPaint.setAntiAlias(true);
 			soundPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
-			soundPaint.setTextAlign(Align.CENTER);
+			soundPaint.setTextAlign(Paint.Align.CENTER);
 		}
 		
 		if (numbersPaint == null) {
@@ -108,7 +107,7 @@ public class SoundPluginService extends AbstractPluginService {
 			numbersPaint.setTypeface(Typeface.SANS_SERIF);
 			numbersPaint.setAntiAlias(true);
 			numbersPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
-			numbersPaint.setTextAlign(Align.CENTER);
+			numbersPaint.setTextAlign(Paint.Align.CENTER);
 		}
 		
 		if (bitmapBackground == null) {
@@ -298,7 +297,7 @@ public class SoundPluginService extends AbstractPluginService {
 				PluginUtils.sendScaledImage(mLiveViewAdapter, mPluginId,
 				        getBackgroundBitmapWithText(categoryNumber, category, soundNumber, sound));
 			}
-		}, 500);
+		}, 1000);
 		
 	}
 	
@@ -332,12 +331,10 @@ public class SoundPluginService extends AbstractPluginService {
 		
 		canvas.drawText(String.format("%d/%d", categoryIndex, soundManager.getCategoriesLength()),
 		        PluginConstants.LIVEVIEW_SCREEN_X / 2, 30, numbersPaint);
-		canvas.drawText(category, (PluginConstants.LIVEVIEW_SCREEN_X - category.length()) / 2, 50,
-		        categoryPaint);
+		canvas.drawText(category, PluginConstants.LIVEVIEW_SCREEN_X / 2, 50, categoryPaint);
 		canvas.drawText(String.format("%d/%d", soundIndex, soundManager.getSoundsLength()),
 		        PluginConstants.LIVEVIEW_SCREEN_X / 2, 90, numbersPaint);
-		canvas.drawText(sound, (PluginConstants.LIVEVIEW_SCREEN_X - sound.length()) / 2, 105,
-		        soundPaint);
+		canvas.drawText(sound, PluginConstants.LIVEVIEW_SCREEN_X / 2, 105, soundPaint);
 		
 		return background;
 	}
