@@ -1,7 +1,4 @@
-------------------------------
-Android LiveView Funny Sounds Plugin
-------------------------------
-
+# Android LiveView Funny Sounds Plugin
 
 This is a plugin for the LiveView device
 (a "smartwatch" for Android).
@@ -9,20 +6,34 @@ This is a plugin for the LiveView device
 Developed using Eclipse and Android Plugin
 
 
-Sounds Bank
-===========
+## License
+
+* [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+## Acknowledgements
 
 Thanks for fantastic sounds effects to:
 
-+ http://soundbible.com/
-+ http://www.mysoundfx.com/
-+ http://www.acoustica.com
-+ http://www.flashkit.com/soundfx/
-+ http://www.soungle.com/
-+ http://www.doryanet.co.il/doron
+* [soundbible](http://soundbible.com/)
+* [mysoundfx](http://www.mysoundfx.com/)
+* [acoustica](http://www.acoustica.com)
+* [flashkit](http://www.flashkit.com/soundfx/)
+* [soungle](http://www.soungle.com/)
+* [doryanet](http://www.doryanet.co.il/doron)
 
 
+## Contributing
 
-WebPage
-===========
-http://www.makingiants.com/
+Please fork this repository and contribute back using pull requests.
+
+Any contributions, large or small, major features, bug fixes, additional
+language translations, unit/integration tests are welcomed and appreciated
+but will be thoroughly reviewed and discussed.
+
+
+## About
+
++ MakinGIANTS
++ http://www.makingiants.com
++ here.makin.giants@gmail.com
