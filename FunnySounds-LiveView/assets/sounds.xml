@@ -1,40 +1,14 @@
 <sounds>
-    <category name="Vehicles" >
-
-        <sound
-            name="Ambulance"
-            file="Vehicles/ambulance.mp3" />
-
-        <sound
-            name="Helicopter"
-            file="Vehicles/helicopter.mp3" />
-
-        <sound
-            name="Police"
-            file="Vehicles/police.mp3" />
-
-        <sound
-            name="Police 2"
-            file="Vehicles/police 2.mp3" />
-
-        <sound
-            name="Police 3"
-            file="Vehicles/police 3.mp3" />
-
-        <sound
-            name="Car alarm"
-            file="Vehicles/car alarm.mp3" />
-
-        <sound
-            name="Alarm"
-            file="Vehicles/alarm.mp3" />
-    </category>
 
     <category name="Joker" >
 
         <sound
-            name="Cricket"
-            file="Joke/cricket.mp3" />
+            name="Aa long"
+            file="Voices/aaa long.mp3" />
+
+        <sound
+            name="Aa short"
+            file="Voices/aaa short.mp3" />
 
         <sound
             name="Bad trumpet"
@@ -45,149 +19,15 @@
             file="Joke/drumroll.mp3" />
 
         <sound
-            name="Surprise"
-            file="Joke/drumroll 2.mp3" />
-
-        <sound
             name="Wrong!"
             file="Joke/wrong.mp3" />
     </category>
 
-    <category name="Cartoon!" >
+    <category name="Funny Voices" >
 
         <sound
-            name="Boing"
-            file="Cartoon/boing.mp3" />
-
-        <sound
-            name="Boing 2"
-            file="Cartoon/boing 2.mp3" />
-
-        <sound
-            name="Boing 3"
-            file="Cartoon/boing 3.mp3" />
-
-        <sound
-            name="Tin Tan Tis"
-            file="Cartoon/tin tan tis.mp3" />
-
-        <sound
-            name="Run"
-            file="Cartoon/boing run.mp3" />
-
-        <sound
-            name="Scratch"
-            file="Cartoon/scratch.mp3" />
-
-        <sound
-            name="Shut"
-            file="Cartoon/shut.mp3" />
-
-        <sound
-            name="Bicycle"
-            file="Cartoon/bicycle.mp3" />
-
-        <sound
-            name="Elevator"
-            file="Cartoon/.mp3" />
-
-        <sound
-            name="Run"
-            file="Cartoon/run.mp3" />
-
-        <sound
-            name="Whisle"
-            file="Cartoon/whisle.mp3" />
-
-        <sound
-            name="Wrong"
-            file="Cartoon/wrong.mp3" />
-    </category>
-
-    <category name="Soundtrack" >
-
-        <sound
-            name="Suspence 1"
-            file="Soundtrack/suspence.mp3" />
-
-        <sound
-            name="Suspence 2"
-            file="Soundtrack/suspence 2.mp3" />
-
-        <sound
-            name="Dreaming"
-            file="Soundtrack/dreams.mp3" />
-
-        <sound
-            name="Jungle"
-            file="Soundtrack/jungle.mp3" />
-
-        <sound
-            name="Surprise"
-            file="Soundtrack/surprise.mp3" />
-
-        <sound
-            name="Tragic"
-            file="Soundtrack/tragic.mp3" />
-
-        <sound
-            name="drama"
-            file="Soundtrack/drama.mp3" />
-
-        <sound
-            name="dreams 2"
-            file="Soundtrack/dreams 2.mp3" />
-
-        <sound
-            name="exorcist"
-            file="Soundtrack/exorcist.mp3" />
-
-        <sound
-            name="funny"
-            file="Soundtrack/funny.mp3" />
-
-        <sound
-            name="haunted house"
-            file="Soundtrack/haunted house.mp3" />
-
-        <sound
-            name="heaven.mp3"
-            file="Soundtrack/heaven.mp3" />
-
-        <sound
-            name="magic morning"
-            file="Soundtrack/magic morning.mp3" />
-
-        <sound
-            name="magic"
-            file="Soundtrack/magic.mp3" />
-
-        <sound
-            name="space odyssey"
-            file="Soundtrack/space odyssey.mp3" />
-
-        <sound
-            name="cartoon horror"
-            file="Soundtrack/cartoon horror.mp3" />
-
-        <sound
-            name="the lone ranger"
-            file="Soundtrack/the lone ranger.mp3" />
-
-        <sound
-            name="wedding march"
-            file="Soundtrack/wedding march.mp3" />
-    </category>
-
-    <category name="Voices" >
-
-        <sound
-            name="Aa long"
-            file="Voices/aaa long.mp3" />
-
-        <sound
-            name="Aa short"
-            file="Voices/aaa short.mp3" />
+            name="Scream"
+            file="Human/scream.mp3" />
 
         <sound
             name=":("
@@ -218,58 +58,7 @@
             file="Voices/boo.mp3" />
     </category>
 
-    <category name="Farts" >
-
-        <sound
-            name="Quickieee"
-            file="Farts/pfff.mp3" />
-
-        <sound
-            name="Stages 2"
-            file="Farts/stages 2.mp3" />
-
-        <sound
-            name="Quickie"
-            file="Farts/fart quick.mp3" />
-
-        <sound
-            name="Stages"
-            file="Farts/fart stages.mp3" />
-
-        <sound
-            name="Strong"
-            file="Farts/fart strong.mp3" />
-
-        <sound
-            name="Wops"
-            file="Farts/fart wops.mp3" />
-
-        <sound
-            name="Bum"
-            file="Farts/fart big.mp3" />
-
-        <sound
-            name="Sonorous"
-            file="Farts/fart sonorous.mp3" />
-
-        <sound
-            name="Juicy"
-            file="Farts/fart juicy.mp3" />
-
-        <sound
-            name="Ups"
-            file="Farts/fart ups.mp3" />
-
-        <sound
-            name="Wet short"
-            file="Farts/fart wet short.mp3" />
-
-        <sound
-            name="Wet"
-            file="Farts/fart wet.mp3" />
-    </category>
-
-    <category name="Human" >
+    <category name="Humans" >
 
         <sound
             name="Applause"
@@ -284,19 +73,184 @@
             file="Human/burp 2.mp3" />
 
         <sound
-            name="Scream"
-            file="Human/scream.mp3" />
-
-        <sound
             name="Snoring"
             file="Human/snoring.mp3" />
+    </category>
+
+    <category name="SFX Sounds" >
 
         <sound
-            name="Scream"
-            file="Human/scream.mp3" />
+            name="Surprise"
+            file="Joke/drumroll 2.mp3" />
+
+        <sound
+            name="Boing"
+            file="Cartoon/boing.mp3" />
+
+        <sound
+            name="Boing 2"
+            file="Cartoon/boing 2.mp3" />
+
+        <sound
+            name="Boing 3"
+            file="Cartoon/boing 3.mp3" />
+
+        <sound
+            name="Boing Run"
+            file="Cartoon/boing run.mp3" />
+
+        <sound
+            name="Tin Tan Tis"
+            file="Cartoon/tin tan tis.mp3" />
+
+        <sound
+            name="Scratch"
+            file="Cartoon/scratch.mp3" />
+
+        <sound
+            name="Shut"
+            file="Cartoon/shut.mp3" />
+
+        <sound
+            name="Bicycle"
+            file="Cartoon/bicycle.mp3" />
+
+        <sound
+            name="Elevator"
+            file="Cartoon/elevator.mp3" />
+
+        <sound
+            name="Run"
+            file="Cartoon/run.mp3" />
+
+        <sound
+            name="Whisle"
+            file="Cartoon/whistle.mp3" />
+
+        <sound
+            name="Wrong"
+            file="Cartoon/wrong.mp3" />
+    </category>
+
+    <category name="Soundtracks" >
+
+        <sound
+            name="Suspence 1"
+            file="Soundtrack/suspence.mp3" />
+
+        <sound
+            name="Suspence 2"
+            file="Soundtrack/suspence 2.mp3" />
+
+        <sound
+            name="Suspence Cartoon"
+            file="Soundtrack/suspence cartoon.mp3" />
+
+        <sound
+            name="Dreaming"
+            file="Soundtrack/dreams.mp3" />
+
+        <sound
+            name="Dreaming 2"
+            file="Soundtrack/dreams 2.mp3" />
+
+        <sound
+            name="Jungle"
+            file="Soundtrack/jungle.mp3" />
+
+        <sound
+            name="Surprise"
+            file="Soundtrack/surprise.mp3" />
+
+        <sound
+            name="Tragic"
+            file="Soundtrack/tragic.mp3" />
+
+        <sound
+            name="Drama"
+            file="Soundtrack/drama.mp3" />
+
+        <sound
+            name="Exorcist"
+            file="Soundtrack/exorcist.mp3" />
+
+        <sound
+            name="Funny"
+            file="Soundtrack/funny.mp3" />
+
+        <sound
+            name="Haunted house"
+            file="Soundtrack/haunted house.mp3" />
+
+        <sound
+            name="Heaven"
+            file="Soundtrack/heaven.mp3" />
+
+        <sound
+            name="Magic morning"
+            file="Soundtrack/magic morning.mp3" />
+
+        <sound
+            name="Magic spell"
+            file="Soundtrack/magic.mp3" />
+
+        <sound
+            name="Space odyssey"
+            file="Soundtrack/space odyssey.mp3" />
+
+        <sound
+            name="The lone ranger"
+            file="Soundtrack/the lone ranger.mp3" />
+
+        <sound
+            name="Wedding march"
+            file="Soundtrack/wedding march.mp3" />
+    </category>
+
+    <category name="Funny Farts" >
+
+        <sound
+            name="Quickieee"
+            file="Farts/pfff.mp3" />
+
+        <sound
+            name="Stages"
+            file="Farts/stages.mp3" />
+
+        <sound
+            name="Stages 2"
+            file="Farts/stages 2.mp3" />
+
+        <sound
+            name="Strong"
+            file="Farts/strong.mp3" />
+
+        <sound
+            name="Sonorous"
+            file="Farts/sonorous.mp3" />
+
+        <sound
+            name="Juicy"
+            file="Farts/juicy.mp3" />
+
+        <sound
+            name="Ups"
+            file="Farts/ups.mp3" />
+
+        <sound
+            name="Wet"
+            file="Farts/wet.mp3" />
+
+        <sound
+            name="Wet short"
+            file="Farts/wet short.mp3" />
     </category>
 
     <category name="Animals" >
+
+        <sound
+            name="Cricket"
+            file="Joke/cricket.mp3" />
 
         <sound
             name="Meow"
@@ -309,10 +263,6 @@
         <sound
             name="Meow 3"
             file="Animals/meow 3.mp3" />
-
-        <sound
-            name="Meow 4"
-            file="Animals/meow 4.mp3" />
 
         <sound
             name="Mosquito"
@@ -355,7 +305,7 @@
             file="Animals/crow.mp3" />
     </category>
 
-    <category name="Guns" >
+    <category name="Guns Pam Pam!" >
 
         <sound
             name="50 Caliber"
@@ -366,19 +316,19 @@
             file="Guns/357magnum.mp3" />
 
         <sound
-            name="AK47 multiple.mp3"
-            file="Guns/gun AK47 multple.mp3.mp3" />
+            name="Shotgun.mp3"
+            file="Guns/shotgun.mp3" />
 
         <sound
             name="AK47 single"
-            file="Guns/gun AK47 singleShot.mp3.mp3" />
+            file="Guns/gun AK47 singleShot.mp3" />
 
         <sound
-            name="Shotgun.mp3"
-            file="Guns/shotgun.mp3.mp3" />
+            name="AK47 multiple.mp3"
+            file="Guns/gun AK47 multple.mp3" />
     </category>
 
-    <category name="Laughts" >
+    <category name="Funny Laughts" >
 
         <sound
             name="Crazy"
@@ -399,6 +349,37 @@
         <sound
             name="Witch"
             file="Laughts/witch.mp3" />
+    </category>
+
+    <category name="Vehicles" >
+
+        <sound
+            name="Ambulance"
+            file="Vehicles/ambulance.mp3" />
+
+        <sound
+            name="Helicopter"
+            file="Vehicles/helicopter.mp3" />
+
+        <sound
+            name="Police"
+            file="Vehicles/police.mp3" />
+
+        <sound
+            name="Police 2"
+            file="Vehicles/police 2.mp3" />
+
+        <sound
+            name="Police 3"
+            file="Vehicles/police 3.mp3" />
+
+        <sound
+            name="Car alarm"
+            file="Vehicles/car alarm.mp3" />
+
+        <sound
+            name="Alarm"
+            file="Vehicles/alarm.mp3" />
     </category>
 
 </sounds>
