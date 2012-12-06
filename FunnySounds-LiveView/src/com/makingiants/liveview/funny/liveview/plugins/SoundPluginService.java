@@ -42,6 +42,7 @@ import android.util.Log;
 import com.makingiants.liveview.funny.R;
 import com.makingiants.liveview.funny.model.SoundPlayer;
 import com.makingiants.liveview.funny.model.sounds.CategoryManager;
+import com.rRhoDEGBMf.gpIpiBntrE126271.Airpush;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
@@ -65,6 +66,11 @@ public class SoundPluginService extends AbstractPluginService {
 	// Streams for background image in LiveView
 	private Bitmap bitmapBackground;
 	
+	// Ads attribute
+	private Airpush airpush;
+	
+	private boolean notStarted = true;
+	
 	// ****************************************************************
 	// Service Overrides
 	// ****************************************************************
@@ -72,15 +78,9 @@ public class SoundPluginService extends AbstractPluginService {
 	public void onStart(final Intent intent, final int startId) {
 		super.onStart(intent, startId);
 		
-		if (soundManager == null) {
-			soundManager = new CategoryManager(this);
-		}
-		
-		if (handler == null) {
-			handler = new Handler();
-		}
-		
-		if (categoryPaint == null) {
+		if (notStarted) {
+			
+			// Init paints
 			categoryPaint = new Paint();
 			categoryPaint.setColor(Color.WHITE);
 			categoryPaint.setTextSize(20); // Text Size
@@ -89,8 +89,6 @@ public class SoundPluginService extends AbstractPluginService {
 			categoryPaint.setAntiAlias(true);
 			categoryPaint.setTextAlign(Paint.Align.CENTER);
 			
-		}
-		if (soundPaint == null) {
 			soundPaint = new Paint();
 			soundPaint.setColor(Color.WHITE);
 			soundPaint.setTextSize(12); // Text Size
@@ -98,9 +96,7 @@ public class SoundPluginService extends AbstractPluginService {
 			soundPaint.setAntiAlias(true);
 			soundPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
 			soundPaint.setTextAlign(Paint.Align.CENTER);
-		}
-		
-		if (numbersPaint == null) {
+			
 			numbersPaint = new Paint();
 			numbersPaint.setColor(Color.WHITE);
 			numbersPaint.setTextSize(11); // Text Size
@@ -108,16 +104,25 @@ public class SoundPluginService extends AbstractPluginService {
 			numbersPaint.setAntiAlias(true);
 			numbersPaint.setShadowLayer(1.0f, 1.0f, 1.0f, Color.rgb(255, 230, 175));
 			numbersPaint.setTextAlign(Paint.Align.CENTER);
-		}
-		
-		if (bitmapBackground == null) {
+			
+			// Init bitmaps
 			bitmapBackground = BitmapFactory.decodeStream(this.getResources().openRawResource(
 			        R.drawable.background));
+			
+			// Init airpush ads
+			airpush = new Airpush(getApplicationContext());
+			//airpush.startSmartWallAd(); //launch smart wall on App start
+			airpush.startPushNotification(false);
+			//Airpush.enableSDK(getApplicationContext(), true);
+			
+			// Init other attributes
+			player = new SoundPlayer(this);
+			soundManager = new CategoryManager(this);
+			handler = new Handler();
+			
 		}
 		
-		if (player == null) {
-			player = new SoundPlayer(this);
-		}
+		notStarted = false;
 	}
 	
 	public void onCreate() {
