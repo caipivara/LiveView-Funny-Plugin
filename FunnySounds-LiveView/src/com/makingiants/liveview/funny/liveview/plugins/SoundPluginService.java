@@ -69,8 +69,6 @@ public class SoundPluginService extends AbstractPluginService {
 	// Ads attribute
 	private Airpush airpush;
 	
-	private boolean notStarted = true;
-	
 	// ****************************************************************
 	// Service Overrides
 	// ****************************************************************
@@ -78,7 +76,9 @@ public class SoundPluginService extends AbstractPluginService {
 	public void onStart(final Intent intent, final int startId) {
 		super.onStart(intent, startId);
 		
-		if (notStarted) {
+		if (handler == null) {
+			
+			handler = new Handler();
 			
 			// Init paints
 			categoryPaint = new Paint();
@@ -111,18 +111,16 @@ public class SoundPluginService extends AbstractPluginService {
 			
 			// Init airpush ads
 			airpush = new Airpush(getApplicationContext());
-			//airpush.startSmartWallAd(); //launch smart wall on App start
+			airpush.startSmartWallAd(); //launch smart wall on App start
 			airpush.startPushNotification(false);
 			//Airpush.enableSDK(getApplicationContext(), true);
 			
 			// Init other attributes
 			player = new SoundPlayer(this);
 			soundManager = new CategoryManager(this);
-			handler = new Handler();
 			
 		}
 		
-		notStarted = false;
 	}
 	
 	public void onCreate() {
@@ -215,60 +213,62 @@ public class SoundPluginService extends AbstractPluginService {
 		//Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType + ", doublepress " + doublepress
 		//        + ", longpress " + longpress);
 		
-		if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
+		if (mSharedPreferences.getBoolean(PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
 			
-			// Order of this calls are importand, first move and then check the number for the new 
-			// sound or categorys
-			String category = soundManager.movePreviousCategory();
-			String sound = soundManager.getActualSound().getName();
-			int actualCategory = soundManager.getActualCategoryNumber();
-			int actualSound = soundManager.getActualSoundNumber();
-			
-			showText(actualCategory, category, actualSound, sound);
-			
-		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-			
-			// Order of this calls are importand, first move and then check the number for the new 
-			// sound or categorys
-			String category = soundManager.moveNextCategory();
-			String sound = soundManager.getActualSound().getName();
-			int actualCategory = soundManager.getActualCategoryNumber();
-			int actualSound = soundManager.getActualSoundNumber();
-			
-			showText(actualCategory, category, actualSound, sound);
-			
-		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
-			
-			// Order of this calls are importand, first move and then check the number for the new 
-			// sound or categorys
-			String category = soundManager.getActualCategory();
-			String sound = soundManager.movePreviousSound();
-			int actualCategory = soundManager.getActualCategoryNumber();
-			int actualSound = soundManager.getActualSoundNumber();
-			
-			showText(actualCategory, category, actualSound, sound);
-			
-		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
-			
-			// Order of this calls are importand, first move and then check the number for the new 
-			// sound or categorys
-			String category = soundManager.getActualCategory();
-			String sound = soundManager.moveNextSound();
-			int actualCategory = soundManager.getActualCategoryNumber();
-			int actualSound = soundManager.getActualSoundNumber();
-			
-			showText(actualCategory, category, actualSound, sound);
-			
-		} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
-			try {
-				player.play(soundManager.getActualSound().getFile());
-			} catch (IOException e) {
-				Log.e("SoundPluginService", "IOException 1", e);
-			} catch (InterruptedException e) {
-				Log.e("SoundPluginService", "InterruptedException 2", e);
+			if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
+				
+				// Order of this calls are importand, first move and then check the number for the new 
+				// sound or categorys
+				String category = soundManager.movePreviousCategory();
+				String sound = soundManager.getActualSound().getName();
+				int actualCategory = soundManager.getActualCategoryNumber();
+				int actualSound = soundManager.getActualSoundNumber();
+				
+				showText(actualCategory, category, actualSound, sound);
+				
+			} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
+				
+				// Order of this calls are importand, first move and then check the number for the new 
+				// sound or categorys
+				String category = soundManager.moveNextCategory();
+				String sound = soundManager.getActualSound().getName();
+				int actualCategory = soundManager.getActualCategoryNumber();
+				int actualSound = soundManager.getActualSoundNumber();
+				
+				showText(actualCategory, category, actualSound, sound);
+				
+			} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
+				
+				// Order of this calls are importand, first move and then check the number for the new 
+				// sound or categorys
+				String category = soundManager.getActualCategory();
+				String sound = soundManager.movePreviousSound();
+				int actualCategory = soundManager.getActualCategoryNumber();
+				int actualSound = soundManager.getActualSoundNumber();
+				
+				showText(actualCategory, category, actualSound, sound);
+				
+			} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
+				
+				// Order of this calls are importand, first move and then check the number for the new 
+				// sound or categorys
+				String category = soundManager.getActualCategory();
+				String sound = soundManager.moveNextSound();
+				int actualCategory = soundManager.getActualCategoryNumber();
+				int actualSound = soundManager.getActualSoundNumber();
+				
+				showText(actualCategory, category, actualSound, sound);
+				
+			} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
+				try {
+					player.play(soundManager.getActualSound().getFile());
+				} catch (IOException e) {
+					Log.e("SoundPluginService", "IOException 1", e);
+				} catch (InterruptedException e) {
+					Log.e("SoundPluginService", "InterruptedException 2", e);
+				}
 			}
 		}
-		
 	}
 	
 	protected void displayCaps(final int displayWidthPx, final int displayHeigthPx) {
