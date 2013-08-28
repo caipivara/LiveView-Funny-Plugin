@@ -9,10 +9,10 @@
     <string name="application_description" translatable="false">Extends:com.sonyericsson.extras.liveview</string>
 
     <!-- In app Billing -->
-    <string name="conf_in_app_title">Help us feed the GIANTS!</string>
-    <string name="conf_in_app_summary">Give food and drinks to develop better giants!</string>
     <string name="in_app_key" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2JrY21mMdAOX4Vk4Uv1nmMH4L+1af3olNCw10ZTnWOoBnqsISZayCfNmGZHh+8PJRtbOBq6RYs8F8rOrl/nLAnWAUVHWG0dwWnMFMrqHnDF4pVNTUJ7cMM2+DZoo3+2R4+aEqkCrmUClXBKwTqM6JvD41qfV5ivNhbbUNA+e/HzpnEpZCX5K5Nx38SPOgD8wfkAZQBufKOjWAZUV+hvWlKS6fI0cBFudfOrrfZdlvqvimOWFyb4T6RVqsXM50Z1ISO6yRbSESWLx+NV95C5PhWe20Z9widhmTZ5Yppzg1BgRFpLKtqEmuQkfOlXc3HUsK30Wk/6wEC1wLzWUkCG7mQIDAQAB</string>
-    <string name="in_app_message_thanks">Thanks for giving! now we can do more GIANTS!</string>
     <string name="in_app_message_error" translatable="false">There is an error with the donation, please wait 5 minutes and try again, 5 minutes is not much! :P</string>
+    <string name="conf_in_app_title">Help us!</string>
+    <string name="conf_in_app_summary">Give food and drinks to develop better apps!</string>
+    <string name="in_app_message_thanks">Thanks for giving! now we can do more apps!</string>
 
 </resources>
