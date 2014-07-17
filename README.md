@@ -1,7 +1,7 @@
 # Android LiveView Funny Sounds Plugin
 
 <a href="https://play.google.com/store/apps/details?id=com.makingiants.liveview.funny" alt="Download from Google Play">
-	<img src="http://dc269.4shared.com/img/atOpeJ_c/0.6767413251063331/banner.png">
+	<img src="http://1.bp.blogspot.com/-jYKPrWY1DwA/UKBCFt33SMI/AAAAAAAAAho/S1Dl2tFgxPg/s640/banner.png">
 </a>
 
 This is a plugin for the LiveView device
