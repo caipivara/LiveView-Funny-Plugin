@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/danielgomez22/AndroidStudioProjects/FunnySounds-LiveView/app/src/main/res/values-es/arrays.xml -->
+    <eat-comment/>
+    <string-array name="in_app_messages">
+        <item>Dar un refresco!</item>
+        <item>Dar una hamburguesa!</item>
+        <item>Dar una cerveza!</item>
+        <item>Dar una pizza!</item>
+    </string-array>
+    <!-- From: file:/Users/danielgomez22/AndroidStudioProjects/FunnySounds-LiveView/app/src/main/res/values-es/strings.xml -->
+    <eat-comment/>
+    <string name="conf_in_app_summary">Ayude con comida y bebidas para desarrollar mejores apps!</string>
+    <string name="conf_in_app_title">Ayudanos!</string>
+    <string name="in_app_message_thanks">Muchas gracias por contribuir! Ahora podemos hacer mas apps!</string>
+</resources>
