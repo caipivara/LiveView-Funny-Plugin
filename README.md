@@ -7,7 +7,7 @@
 This is a plugin for the LiveView device
 (a "smartwatch" for Android).
 
-Developed using Eclipse and Android Plugin
+Updated to Android Studio 1.1
 
 
 ## License
